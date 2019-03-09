@@ -20,11 +20,11 @@ namespace WebFinalApi.Controllers
         static ValuesController()
         {
             _userList = new List<Users>
-       {
-           new Users {UserID = 1, UserName = "zzl", UserEmail = "bfyxzls@sina.com"},
-           new Users {UserID = 2, UserName = "Spiderman", UserEmail = "Spiderman@cnblogs.com"},
-           new Users {UserID = 3, UserName = "Batman", UserEmail = "Batman@cnblogs.com"}
-       };
+            {
+                new Users {UserID = 1, UserName = "zzl", UserEmail = "bfyxzls@sina.com"},
+                new Users {UserID = 2, UserName = "Spiderman", UserEmail = "Spiderman@cnblogs.com"},
+                new Users {UserID = 3, UserName = "Batman", UserEmail = "Batman@cnblogs.com"}
+            };
         }
         /// <summary>
         /// User Data List
@@ -49,8 +49,6 @@ namespace WebFinalApi.Controllers
             return _userList.FirstOrDefault();// (i => i.UserID == id);
         }
 
-
-
         /// <summary>
         /// 添加
         /// </summary>
@@ -62,8 +60,6 @@ namespace WebFinalApi.Controllers
             _userList.Add(entity);
             return entity;
         }
-
-
 
         /// <summary>
         /// 更新
@@ -86,8 +82,6 @@ namespace WebFinalApi.Controllers
             }
             return Json(user);
         }
-
-
 
         /// <summary>
         /// 删除
