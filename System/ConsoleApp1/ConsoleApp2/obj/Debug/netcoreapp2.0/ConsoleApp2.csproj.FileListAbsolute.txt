@@ -1,0 +1,12 @@
+F:\test2\ConsoleApp1\ConsoleApp2\obj\Debug\netcoreapp2.0\ConsoleApp2.csproj.CoreCompileInputs.cache
+F:\test2\ConsoleApp1\ConsoleApp2\obj\Debug\netcoreapp2.0\ConsoleApp2.AssemblyInfoInputs.cache
+F:\test2\ConsoleApp1\ConsoleApp2\obj\Debug\netcoreapp2.0\ConsoleApp2.AssemblyInfo.cs
+F:\test2\ConsoleApp1\ConsoleApp2\bin\Debug\netcoreapp2.0\ConsoleApp2.deps.json
+F:\test2\ConsoleApp1\ConsoleApp2\bin\Debug\netcoreapp2.0\ConsoleApp2.runtimeconfig.json
+F:\test2\ConsoleApp1\ConsoleApp2\bin\Debug\netcoreapp2.0\ConsoleApp2.runtimeconfig.dev.json
+F:\test2\ConsoleApp1\ConsoleApp2\bin\Debug\netcoreapp2.0\ConsoleApp2.dll
+F:\test2\ConsoleApp1\ConsoleApp2\bin\Debug\netcoreapp2.0\ConsoleApp2.pdb
+F:\test2\ConsoleApp1\ConsoleApp2\obj\Debug\netcoreapp2.0\ConsoleApp2.dll
+F:\test2\ConsoleApp1\ConsoleApp2\obj\Debug\netcoreapp2.0\ConsoleApp2.pdb
+F:\test2\ConsoleApp1\ConsoleApp2\obj\Debug\netcoreapp2.0\ConsoleApp2.csprojResolveAssemblyReference.cache
+F:\test2\ConsoleApp1\ConsoleApp2\bin\Debug\netcoreapp2.0\Newtonsoft.Json.dll
