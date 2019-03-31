@@ -1,0 +1,10 @@
+D:\users\user\documents\visual studio 2013\Projects\MyAOPApplication\MyAOPApplication\bin\Debug\MyAOPApplication.exe.config
+D:\Users\user\documents\visual studio 2013\Projects\MyAOPApplication\MyAOPApplication\bin\Debug\MyAOPApplication.exe
+D:\Users\user\documents\visual studio 2013\Projects\MyAOPApplication\MyAOPApplication\bin\Debug\MyAOPApplication.pdb
+D:\Users\user\documents\visual studio 2013\Projects\MyAOPApplication\MyAOPApplication\obj\Debug\MyAOPApplication.exe
+D:\Users\user\documents\visual studio 2013\Projects\MyAOPApplication\MyAOPApplication\obj\Debug\MyAOPApplication.pdb
+D:\Users\user\documents\visual studio 2013\Projects\MyAOPApplication\MyAOPApplication\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\Users\user\documents\visual studio 2013\Projects\MyAOPApplication\MyAOPApplication\bin\Debug\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.dll
+D:\Users\user\documents\visual studio 2013\Projects\MyAOPApplication\MyAOPApplication\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+D:\Users\user\documents\visual studio 2013\Projects\MyAOPApplication\MyAOPApplication\bin\Debug\Microsoft.Practices.Unity.dll
+D:\Users\user\documents\visual studio 2013\Projects\MyAOPApplication\MyAOPApplication\bin\Debug\Microsoft.Practices.Unity.Interception.dll
