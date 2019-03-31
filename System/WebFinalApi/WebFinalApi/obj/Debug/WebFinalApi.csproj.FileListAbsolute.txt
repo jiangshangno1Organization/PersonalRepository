@@ -2,6 +2,7 @@ G:\out\System\WebFinalApi\WebFinalApi\bin\ApplicationInsights.config
 G:\out\System\WebFinalApi\WebFinalApi\bin\WebFinalApi.dll.config
 G:\out\System\WebFinalApi\WebFinalApi\bin\WebFinalApi.dll
 G:\out\System\WebFinalApi\WebFinalApi\bin\WebFinalApi.pdb
+G:\out\System\WebFinalApi\WebFinalApi\bin\AFinalDAL.dll
 G:\out\System\WebFinalApi\WebFinalApi\bin\Antlr3.Runtime.dll
 G:\out\System\WebFinalApi\WebFinalApi\bin\Microsoft.AI.Agent.Intercept.dll
 G:\out\System\WebFinalApi\WebFinalApi\bin\Microsoft.AI.DependencyCollector.dll
@@ -24,6 +25,8 @@ G:\out\System\WebFinalApi\WebFinalApi\bin\System.Web.WebPages.Deployment.dll
 G:\out\System\WebFinalApi\WebFinalApi\bin\System.Web.WebPages.dll
 G:\out\System\WebFinalApi\WebFinalApi\bin\System.Web.WebPages.Razor.dll
 G:\out\System\WebFinalApi\WebFinalApi\bin\WebGrease.dll
+G:\out\System\WebFinalApi\WebFinalApi\bin\Dapper.dll
+G:\out\System\WebFinalApi\WebFinalApi\bin\AFinalDAL.pdb
 G:\out\System\WebFinalApi\WebFinalApi\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 G:\out\System\WebFinalApi\WebFinalApi\bin\Newtonsoft.Json.xml
 G:\out\System\WebFinalApi\WebFinalApi\bin\System.Net.Http.Formatting.xml
@@ -42,6 +45,7 @@ G:\out\System\WebFinalApi\WebFinalApi\bin\Microsoft.AI.DependencyCollector.xml
 G:\out\System\WebFinalApi\WebFinalApi\bin\Microsoft.AI.ServerTelemetryChannel.xml
 G:\out\System\WebFinalApi\WebFinalApi\bin\Microsoft.AI.WindowsServer.xml
 G:\out\System\WebFinalApi\WebFinalApi\bin\Microsoft.AI.Web.xml
+G:\out\System\WebFinalApi\WebFinalApi\bin\Dapper.xml
 G:\out\System\WebFinalApi\WebFinalApi\bin\zh-Hans\System.Net.Http.Formatting.resources.dll
 G:\out\System\WebFinalApi\WebFinalApi\bin\zh-Hans\System.Web.Helpers.resources.dll
 G:\out\System\WebFinalApi\WebFinalApi\bin\zh-Hans\System.Web.Http.resources.dll

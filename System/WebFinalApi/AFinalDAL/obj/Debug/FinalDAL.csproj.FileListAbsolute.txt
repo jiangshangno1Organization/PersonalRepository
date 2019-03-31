@@ -1,0 +1,7 @@
+G:\out\System\WebFinalApi\AFinalDAL\bin\Debug\AFinalDAL.dll
+G:\out\System\WebFinalApi\AFinalDAL\bin\Debug\AFinalDAL.pdb
+G:\out\System\WebFinalApi\AFinalDAL\bin\Debug\Dapper.dll
+G:\out\System\WebFinalApi\AFinalDAL\bin\Debug\Dapper.xml
+G:\out\System\WebFinalApi\AFinalDAL\obj\Debug\FinalDAL.csproj.CoreCompileInputs.cache
+G:\out\System\WebFinalApi\AFinalDAL\obj\Debug\AFinalDAL.dll
+G:\out\System\WebFinalApi\AFinalDAL\obj\Debug\AFinalDAL.pdb

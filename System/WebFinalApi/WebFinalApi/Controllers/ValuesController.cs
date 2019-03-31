@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebFinalApi.Service;
 
 namespace WebFinalApi.Controllers
 {
@@ -46,6 +47,9 @@ namespace WebFinalApi.Controllers
         /// <returns></returns>
         public Users Get(int id)
         {
+            SystemService system = new SystemService();
+            DateTime dt = system.GetSystemTime();
+            var dd = system.GetT<dynamic>();
             return _userList.FirstOrDefault();// (i => i.UserID == id);
         }
 
