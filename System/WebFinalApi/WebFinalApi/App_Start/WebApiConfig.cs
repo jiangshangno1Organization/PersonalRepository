@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using WebFinalApi.Filter;
 
 namespace WebFinalApi
 {
@@ -19,6 +20,8 @@ namespace WebFinalApi
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            //config.Services.Replace(typeof(IExceptionHandler), new Other.TCErrorHandler());
+            config.Filters.Add(new AuthorizationFilter());
         }
     }
 }

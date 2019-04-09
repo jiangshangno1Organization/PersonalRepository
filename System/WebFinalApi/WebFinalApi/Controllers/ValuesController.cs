@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebFinalApi.Filter;
 using WebFinalApi.Service;
 
 namespace WebFinalApi.Controllers
@@ -58,6 +59,7 @@ namespace WebFinalApi.Controllers
         /// </summary>
         /// <param name="form">表单对象，它是唯一的</param>
         /// <returns></returns>
+        [AuthorizationFilter]
         public Users Post([FromBody] Users entity)
         {
             entity.UserID = _userList.Max(x => x.UserID) + 1;
