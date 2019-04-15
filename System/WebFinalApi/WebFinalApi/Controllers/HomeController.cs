@@ -8,6 +8,10 @@ namespace WebFinalApi.Controllers
 {
     public class HomeController : Controller
     {
+        /// <summary>
+        /// s
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
