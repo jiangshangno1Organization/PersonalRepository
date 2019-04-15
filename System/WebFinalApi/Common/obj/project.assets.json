@@ -664,30 +664,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zxq\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
+    "C:\\Users\\朱一刀\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-      "projectUniqueName": "G:\\out\\System\\WebFinalApi\\Common\\Common.csproj",
+      "projectUniqueName": "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\Common.csproj",
       "projectName": "Common",
-      "projectPath": "G:\\out\\System\\WebFinalApi\\Common\\Common.csproj",
-      "packagesPath": "C:\\Users\\zxq\\.nuget\\packages\\",
-      "outputPath": "G:\\out\\System\\WebFinalApi\\Common\\obj\\",
+      "projectPath": "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\Common.csproj",
+      "packagesPath": "C:\\Users\\朱一刀\\.nuget\\packages\\",
+      "outputPath": "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\zxq\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
+        "C:\\Users\\朱一刀\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"

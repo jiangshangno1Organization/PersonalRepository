@@ -1,0 +1,60 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\Common.csproj": {}
+  },
+  "projects": {
+    "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\Common.csproj",
+        "projectName": "Common",
+        "projectPath": "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\Common.csproj",
+        "packagesPath": "C:\\Users\\朱一刀\\.nuget\\packages\\",
+        "outputPath": "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\朱一刀\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.0": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
