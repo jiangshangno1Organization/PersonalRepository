@@ -1,0 +1,9 @@
+E:\WorkDir\Api\System\WebFinalApi\Common\bin\Debug\netcoreapp2.0\Common.deps.json
+E:\WorkDir\Api\System\WebFinalApi\Common\bin\Debug\netcoreapp2.0\Common.dll
+E:\WorkDir\Api\System\WebFinalApi\Common\bin\Debug\netcoreapp2.0\Common.pdb
+E:\WorkDir\Api\System\WebFinalApi\Common\obj\Debug\netcoreapp2.0\Common.csprojAssemblyReference.cache
+E:\WorkDir\Api\System\WebFinalApi\Common\obj\Debug\netcoreapp2.0\Common.csproj.CoreCompileInputs.cache
+E:\WorkDir\Api\System\WebFinalApi\Common\obj\Debug\netcoreapp2.0\Common.AssemblyInfoInputs.cache
+E:\WorkDir\Api\System\WebFinalApi\Common\obj\Debug\netcoreapp2.0\Common.AssemblyInfo.cs
+E:\WorkDir\Api\System\WebFinalApi\Common\obj\Debug\netcoreapp2.0\Common.dll
+E:\WorkDir\Api\System\WebFinalApi\Common\obj\Debug\netcoreapp2.0\Common.pdb
