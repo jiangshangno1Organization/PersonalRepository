@@ -15,5 +15,6 @@ namespace WebFinalApi.Empty
         public DateTime sendTime { get; set; }
         public string type { get; set; }
         public int failtime { get; set; }
+        public string mobile { get; set; }
     }
 }

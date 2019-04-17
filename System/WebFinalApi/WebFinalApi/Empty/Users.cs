@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebFinalApi.Empty
 {
-    public class User
+    public class Users
     {
         public string userId { get; set; }
         public string userName { get; set; }

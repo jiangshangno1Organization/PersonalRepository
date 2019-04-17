@@ -4,17 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebFinalApi.Empty;
 using WebFinalApi.Filter;
 using WebFinalApi.Service;
 
 namespace WebFinalApi.Controllers
 {
-    public class Users
-    {
-        public int UserID { set; get; }
-        public string UserName { set; get; }
-        public string UserEmail { set; get; }
-    }
+  
 
     public class ValuesController : ApiController
     {
@@ -23,9 +19,6 @@ namespace WebFinalApi.Controllers
         {
             _userList = new List<Users>
             {
-                new Users {UserID = 1, UserName = "zzl", UserEmail = "bfyxzls@sina.com"},
-                new Users {UserID = 2, UserName = "Spiderman", UserEmail = "Spiderman@cnblogs.com"},
-                new Users {UserID = 3, UserName = "Batman", UserEmail = "Batman@cnblogs.com"}
             };
         }
         /// <summary>
@@ -50,7 +43,6 @@ namespace WebFinalApi.Controllers
         {
             SystemService system = new SystemService();
             DateTime dt = system.GetSystemTime();
-            var dd = system.GetT<dynamic>();
             return _userList.FirstOrDefault();// (i => i.UserID == id);
         }
 
@@ -62,7 +54,7 @@ namespace WebFinalApi.Controllers
         [AuthorizationFilter]
         public Users Post([FromBody] Users entity)
         {
-            entity.UserID = _userList.Max(x => x.UserID) + 1;
+            //entity.UserID = _userList.Max(x => x.UserID) + 1;
             _userList.Add(entity);
             return entity;
         }
@@ -75,18 +67,7 @@ namespace WebFinalApi.Controllers
         /// <returns></returns>
         public IHttpActionResult Put(int id, [FromBody]Users entity)
         {
-            var user = _userList.FirstOrDefault(i => i.UserID == id);
-            if (user != null)
-            {
-                user.UserName = entity.UserName;
-                user.UserEmail = entity.UserEmail;
-            }
-            else
-            {
-
-                _userList.Add(entity);
-            }
-            return Json(user);
+            return Json("");
         }
 
         /// <summary>

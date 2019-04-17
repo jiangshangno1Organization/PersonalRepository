@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace WebFinalApi.Service
 {
-    public class SystemService
+    public class SystemService : ISystemService
     {
         CommonDB commonDB = new CommonDB();
         public DateTime GetSystemTime()
@@ -29,7 +29,6 @@ namespace WebFinalApi.Service
             dynamic dynamic = commonDB.Query<dynamic>("Select * from ec_info_cls where ifdel = @ifdel" , new {ifdel = "0" });
             return dynamic;
         }
-
 
     }
 }

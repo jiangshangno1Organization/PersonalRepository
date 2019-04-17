@@ -80,7 +80,7 @@ namespace AFinalDAL
         }
 
 
-        public T TCQueryFirstOrDefault<T>(string sql, object param = null) where T : class
+        public T QueryFirstOrDefault<T>(string sql, object param = null) where T : class
         {
             Connection();
             if (_transaction == null)
@@ -93,7 +93,7 @@ namespace AFinalDAL
             }
         }
 
-        public dynamic TCQueryFirstOrDefault(string sql, object param = null)
+        public dynamic QueryFirstOrDefault(string sql, object param = null)
         {
             Connection();
             if (_transaction == null)

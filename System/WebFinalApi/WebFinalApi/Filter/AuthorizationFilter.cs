@@ -25,7 +25,7 @@ namespace WebFinalApi.Filter
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, new { a = 1});
+            //actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, new { a = 1});
             base.OnAuthorization(actionContext);
         }
     }
