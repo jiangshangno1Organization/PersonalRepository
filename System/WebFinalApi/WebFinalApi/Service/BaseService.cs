@@ -9,6 +9,13 @@ namespace WebFinalApi.Service
     public class BaseService
     {
         
+        /// <summary>
+        /// Insert语句生成
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataModel"></param>
+        /// <param name="fileNames"></param>
+        /// <returns></returns>
         public string GenerateInsertSql<T>(T dataModel,IEnumerable<string> fileNames)
         {
             string sqlResult = " VALUES ";

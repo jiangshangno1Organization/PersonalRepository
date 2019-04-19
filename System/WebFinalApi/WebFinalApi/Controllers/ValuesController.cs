@@ -15,8 +15,11 @@ namespace WebFinalApi.Controllers
     public class ValuesController : ApiController
     {
         private static List<Users> _userList;
-        static ValuesController()
+
+        private ISystemService systemService;
+        public ValuesController(ISystemService service)
         {
+            systemService = service;
             _userList = new List<Users>
             {
             };
@@ -41,8 +44,7 @@ namespace WebFinalApi.Controllers
         /// <returns></returns>
         public Users Get(int id)
         {
-            SystemService system = new SystemService();
-            DateTime dt = system.GetSystemTime();
+            DateTime dt = systemService.GetSystemTime();
             return _userList.FirstOrDefault();// (i => i.UserID == id);
         }
 

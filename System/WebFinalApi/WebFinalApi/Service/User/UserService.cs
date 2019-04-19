@@ -9,7 +9,12 @@ namespace WebFinalApi.Service
 {
     public class UserService : BaseService, IUserService
     {
-        CommonDB commonDB = new CommonDB();
+        CommonDB commonDB ;
+        public UserService(CommonDB DB)
+        {
+            commonDB = DB;
+        }
+
         public IEnumerable<Users> GetAllUsers()
         {
             string sql = "SELECT * FROM users";

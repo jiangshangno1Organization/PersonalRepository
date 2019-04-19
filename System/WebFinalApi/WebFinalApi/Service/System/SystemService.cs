@@ -17,13 +17,16 @@ namespace WebFinalApi.Service
 {
     public class SystemService : ISystemService
     {
-        CommonDB commonDB = new CommonDB();
+        CommonDB commonDB ;
+        public SystemService(CommonDB dB)
+        {
+            commonDB = dB;
+        }
         public DateTime GetSystemTime()
         {
             DateTime dt = commonDB.ExecuteScalar<DateTime>("SELECT GETDATE()");
             return dt;
         }
-
         public T GetT<T>()
         {
             dynamic dynamic = commonDB.Query<dynamic>("Select * from ec_info_cls where ifdel = @ifdel" , new {ifdel = "0" });
