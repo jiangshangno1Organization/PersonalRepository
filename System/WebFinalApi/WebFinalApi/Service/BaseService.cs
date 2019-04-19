@@ -16,10 +16,9 @@ namespace WebFinalApi.Service
         /// <param name="dataModel"></param>
         /// <param name="fileNames"></param>
         /// <returns></returns>
-        public string GenerateInsertSql<T>(T dataModel,IEnumerable<string> fileNames)
+        public string InsertSqlGenerate<T>(T dataModel,IEnumerable<string> fileNames)
         {
             string sqlResult = " VALUES ";
-
             var type = dataModel.GetType();//获取属性集合 
             PropertyInfo[] pi = type.GetProperties();//获取属性集合   
             string cellTitles = string.Empty;
@@ -38,7 +37,29 @@ namespace WebFinalApi.Service
                     }
                 }
             }
-            return $"{cellTitles.TrimEnd(',')} {sqlResult}  {cellValues.TrimEnd(',')}";
+            return $"({cellTitles.TrimEnd(',')}) {sqlResult} ({cellValues.TrimEnd(',')})";
+        }
+
+
+        public string SelectSqlGenerate<T>(T dataModel ,IEnumerable<string> fileNames)
+        {
+            var type = dataModel.GetType();//获取属性集合 
+            PropertyInfo[] pi = type.GetProperties();//获取属性集合   
+            List<string> allConditon = new List<string>();
+            foreach (PropertyInfo p in pi)
+            {
+                if (fileNames.Contains(p.Name))
+                {
+                    try
+                    {
+                        allConditon.Add($" {p.Name} = @{p.Name} ");
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+            return $" WHERE {string.Join("AND", allConditon)}" ;
         }
 
     }

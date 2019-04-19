@@ -11,10 +11,10 @@ namespace WebFinalApi.Empty
         public string userName { get; set; }
         public string mobile { get; set; }
         public string password { get; set; }
-        public DateTime updateTime { get; set; }
+        public DateTime? updateTime { get; set; }
         public string status { get; set; }
         public string memo { get; set; }
         public string ifdel { get; set; }
-        public DateTime inittime { get; set; }
+        public DateTime? inittime { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebFinalApi.CustomException;
 using WebFinalApi.Empty;
 
 namespace WebFinalApi.Service
@@ -27,9 +28,12 @@ namespace WebFinalApi.Service
             return commonDB.QueryFirstOrDefault<Users>(sql, new { id = ID });
         }
 
+        #region 帐号注册
+
         public bool RegisterUser(Users user)
         {
-            string sqlConditon = GenerateInsertSql<Users>(user, new List<string>()
+            user.inittime = DateTime.Now;
+            string sqlConditon = InsertSqlGenerate(user, new List<string>()
             {
                 nameof(user.userName),
                 nameof(user.mobile),
@@ -38,8 +42,28 @@ namespace WebFinalApi.Service
                 nameof(user.ifdel),
                 nameof(user.inittime) });
             string sql = $@"INSERT INTO users {sqlConditon}";
-            return commonDB.Excute(sql) == 1;
+            return commonDB.Excute(sql, user) == 1;
         }
+
+        public bool VerificationUser(Users user)
+        {
+            //手机号码验证是否重复
+            string sqlConditon = SelectSqlGenerate(user, new List<string>()
+            {
+                nameof(user.mobile),
+                nameof(user.ifdel)
+            });
+            string sql = $"SELECT * FROM users {sqlConditon}";
+            Users existData = commonDB.QueryFirstOrDefault<Users>(sql,user);
+            if (existData!=null)
+            {
+                throw new VerificationException("手机号码已注册.");
+            }
+            return true;
+        }
+
+        #endregion
+
 
         public bool UpdateUser(Users user)
         {
@@ -50,5 +74,7 @@ namespace WebFinalApi.Service
         {
             throw new NotImplementedException();
         }
+
+      
     }
 }

@@ -82,6 +82,7 @@ namespace WebFinalApi.Controllers
             //_userList.Remove(_userList.FirstOrDefault(i => i.UserID == id));
             _userList.Remove(_userList.FirstOrDefault());
         }
+
         public string Options()
         {
             return null; // HTTP 200 response with empty body
