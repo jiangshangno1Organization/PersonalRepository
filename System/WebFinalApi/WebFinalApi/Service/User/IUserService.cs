@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using WebFinalApi.Empty;
+using WebFinalApi.Models.User;
 
 namespace WebFinalApi.Service
 {
@@ -17,7 +18,7 @@ namespace WebFinalApi.Service
         bool DeleteUser(string ID);
 
 
-        #region 帐号注册
+        #region 帐号登录
 
         /// <summary>
         /// 注册执行
@@ -27,12 +28,10 @@ namespace WebFinalApi.Service
         bool RegisterUser(Users user);
 
         /// <summary>
-        /// 验证注册数据是否冲突
+        /// 用户登录
         /// </summary>
-        /// <param name="user"></param>
         /// <returns></returns>
-        bool VerificationUser(Users user);
-
+        LoginOutPut UserLogin(LoginModel loginModel);
         #endregion
 
     }

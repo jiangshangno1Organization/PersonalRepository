@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using WebFinalApi.CustomException;
 using WebFinalApi.Empty;
+using WebFinalApi.Models;
 using WebFinalApi.Models.User;
 using WebFinalApi.Service;
 
@@ -13,10 +14,12 @@ namespace WebFinalApi.Controllers
     public class UserController : ApiController
     {
         private IUserService userService;
+        private ISystemService systemService;
 
-        public UserController(IUserService service)
+        public UserController(IUserService  user, ISystemService system)
         {
-            userService = service;
+            userService = user;
+            systemService = system;
         }
 
         [HttpGet]
@@ -25,71 +28,52 @@ namespace WebFinalApi.Controllers
             return "";
         }
 
-        /// <summary>
-        /// 帐号注册
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        [HttpPut]
-        public UserOperationResult RegiestUser(Users user)
-        {
-            UserOperationResult result = null;
-            string meassage = string.Empty;
-            bool res = false;
-            try
-            {
-                //验证提交数据合法性 
-                UserDataLegalityVerification(user);
-                //验证数据冲突
-
-                if (userService.RegisterUser(user))
-                {
-                    res = true;
-                }
-                else
-                {
-
-                }
-            }
-            catch (VerificationException ex)
-            {
-                meassage = ex.Message;
-            }
-            catch (OperationException ex)
-            {
-                meassage = ex.Message;
-            }
-            catch (Exception ex)
-            {
-                meassage = ex.Message;
-            }
-            finally
-            {
-                result = new UserOperationResult()
-                {
-                    ifSuccess = res,
-                    remindMeassage = meassage
-                };
-            }
-
-            return result;
-        }
-
         [HttpPost]
         public string ChangeUserData(Users user)
         {
             return "";
         }
 
+        #region 帐号登录
 
-
-        #region 帐号
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="loginModel"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public BaseResponseModel<LoginOutPut> UserLogin(LoginModel loginModel)
+        {
+            string remindMsg = string.Empty;
+            string errMsg = string.Empty;
+            LoginOutPut loginOutPut = new LoginOutPut();
+            try
+            {
+                //验证提交数据合法性 
+                UserDataLegalityVerification(loginModel);
+                loginOutPut = userService.UserLogin(loginModel);
+            }
+            catch (VerificationException ex)
+            {
+                loginOutPut.remindMsg = remindMsg;
+                remindMsg = ex.Message;
+            }
+            catch (OperationException ex)
+            {
+                errMsg = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+            }
+            return ResponsePack.Responsing(loginOutPut, errMeassage: errMsg);
+        }
 
         /// <summary>
         /// 验证帐号合法性
         /// </summary>
         /// <param name="users"></param>
-        private void UserDataLegalityVerification(Users users)
+        private void UserDataLegalityVerification(LoginModel users)
         {
             if (string.IsNullOrWhiteSpace(users.mobile))
             {
