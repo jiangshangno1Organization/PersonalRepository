@@ -1,6 +1,7 @@
-System/WebFinalApi/.vs/WebFinalApi/v16/Server
-System/WebFinalApi/WebFinalApi/obj/Debug/*
+System/WebFinalApi/.vs/WebFinalApi/v16
+System/WebFinalApi/WebFinalApi/obj/Debug/
 System/WebFinalApi/Common/obj/Debug/
 System/WebFinalApi/Common/bin/Debug/
 System/WebFinalApi/packages/
 System/WebFinalApi/WebFinalApi/bin/Autofac.dll
+System/WebFinalApi/WebFinalApi/bin/

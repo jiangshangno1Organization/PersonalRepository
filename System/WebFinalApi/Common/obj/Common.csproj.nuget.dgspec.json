@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\Common.csproj": {}
+    "E:\\WorkDir\\Web\\System\\WebFinalApi\\Common\\Common.csproj": {}
   },
   "projects": {
-    "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\Common.csproj": {
+    "E:\\WorkDir\\Web\\System\\WebFinalApi\\Common\\Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\Common.csproj",
+        "projectUniqueName": "E:\\WorkDir\\Web\\System\\WebFinalApi\\Common\\Common.csproj",
         "projectName": "Common",
-        "projectPath": "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\Common.csproj",
+        "projectPath": "E:\\WorkDir\\Web\\System\\WebFinalApi\\Common\\Common.csproj",
         "packagesPath": "C:\\Users\\Administrator\\.nuget\\packages\\",
-        "outputPath": "E:\\WorkDir\\Api\\System\\WebFinalApi\\Common\\obj\\",
+        "outputPath": "E:\\WorkDir\\Web\\System\\WebFinalApi\\Common\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
