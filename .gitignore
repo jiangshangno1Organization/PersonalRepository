@@ -1,6 +1,6 @@
-System/WebFinalApi/Common/obj/Debug/netcoreapp2.0/Common.csprojAssemblyReference.cache
-System/WebFinalApi/.vs/WebFinalApi/v16/Server/sqlite3/storage.ide
-System/WebFinalApi/.vs/WebFinalApi/v16/Server/sqlite3/db.lock
+System/WebFinalApi/.vs/WebFinalApi/v16/Server
 System/WebFinalApi/WebFinalApi/obj/Debug/*
-System/WebFinalApi/Common/obj/Debug/netcoreapp2.0/Common.dll
-System/WebFinalApi/Common/bin/Debug/netcoreapp2.0/Common.pdb
+System/WebFinalApi/Common/obj/Debug/
+System/WebFinalApi/Common/bin/Debug/
+System/WebFinalApi/packages/
+System/WebFinalApi/WebFinalApi/bin/Autofac.dll
