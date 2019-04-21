@@ -29,11 +29,18 @@ namespace WebFinalApi.Controllers
         }
 
         [HttpPost]
-        public string ChangeUserData(Users user)
+        [ActionName(name: "ChangeUserData2")]
+        public string ChangeUserData()
         {
             return "";
         }
 
+
+        [HttpPost]
+        [ActionName(name: "ChangeUserData1")]
+        public void ssss(Users user)
+        {
+        }
         #region 帐号登录
 
         /// <summary>
@@ -55,8 +62,8 @@ namespace WebFinalApi.Controllers
             }
             catch (VerificationException ex)
             {
-                loginOutPut.remindMsg = remindMsg;
                 remindMsg = ex.Message;
+                loginOutPut.remindMsg = remindMsg;
             }
             catch (OperationException ex)
             {

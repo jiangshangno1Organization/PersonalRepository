@@ -492,6 +492,10 @@ namespace ConsoleApp4
             aa();
             try
             {
+
+                string dd = "524401418738681477";
+
+                int d = ExplainUserID(dd);
                 #region DataTable lambda
 
                 //DataTable dt = new DataTable();
@@ -668,7 +672,7 @@ namespace ConsoleApp4
                 //}
                 //Console.WriteLine("123");
                 #endregion
-               
+
                 #region 获取主机名
                 //string b = Dns.GetHostName();
                 //string d = Dns.GetHostEntry("localhost").HostName;
@@ -696,10 +700,10 @@ namespace ConsoleApp4
 
                 #region Timer间隔执行
 
-                System.Threading.Timer
-                threadTimer = new System.Threading.Timer(new System.Threading.TimerCallback(Method3),
-                null,
-                0, 5000);
+                //System.Threading.Timer
+                //threadTimer = new System.Threading.Timer(new System.Threading.TimerCallback(Method3),
+                //null,
+                //0, 5000);
          //       while (true)
          //       {
          //           Console.WriteLine("test_" +
@@ -712,8 +716,7 @@ namespace ConsoleApp4
 
                 #endregion
 
-                Game game = new Game();
-                game.Do();
+
             }
             catch (Exception ex)
             {
@@ -724,6 +727,28 @@ namespace ConsoleApp4
                 Console.WriteLine("a");
             }
         }
+        public static int ExplainUserID(string key)
+        {
+            string firstCode = key.Substring(0,1);
+            switch (firstCode)
+            {
+                case "A":
+                    firstCode = "10";
+                    break;
+                case "B":
+                    firstCode = "11";
+                    break;
+                case "C":
+                    firstCode = "12";
+                    break;
+                default:
+                    break;
+            }
+            int count = Convert.ToInt32(firstCode) - 3;
+            int ID = Convert.ToInt32(key.Substring(1,  count));
+            return ID;
+        }
+
 
         public static void Method3(Object
             state)

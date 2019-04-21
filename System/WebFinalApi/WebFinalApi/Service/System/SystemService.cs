@@ -101,8 +101,7 @@ namespace WebFinalApi.Service
                 }
             }
             ///生成6位values
-            CodeVerificationHelper codeHelper = new CodeVerificationHelper();
-            code.value = codeHelper.GetVerificationCode();
+            code.value = CodeVerificationHelper.GetVerificationCode();
             sqlCondition = InsertSqlGenerate(code, new List<string>()
             {
                 nameof(code.failtime),

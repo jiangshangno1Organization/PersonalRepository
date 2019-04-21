@@ -69,8 +69,7 @@ namespace WebFinalApi.Service
                     userData = commonDB.QueryFirstOrDefault<Users>(sql, user);
                 }
                 int id = Convert.ToInt32(userData.userId);
-                CodeVerificationHelper codeVerification = new CodeVerificationHelper(); 
-                string key = codeVerification.GenerateLoginKey(id);
+                string key = CodeVerificationHelper.GenerateLoginKey(id);
                 return new LoginOutPut()
                 {
                     ifSuccess = true,
