@@ -8,7 +8,7 @@ namespace WebFinalApi.Empty
     public class CodeVerification
     {
         public int id { get; set; }
-        public string values { get; set; }
+        public string value { get; set; }
         public string ifSend { get; set; }
         public string status { get; set; }
         public DateTime initTime { get; set; }

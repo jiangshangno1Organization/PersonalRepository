@@ -42,13 +42,13 @@ namespace WebFinalApi.Service
             CodeVerification codeSimple = new CodeVerification() { mobile = login.mobile, status = "0" };
             string sqlConditon = SelectSqlGenerate(codeSimple, new List<string>() { nameof(codeSimple.mobile), nameof(codeSimple.status) });
             //判断验证码是否合法
-            string sql = $"SELECT  * FROM CodeVerification {sqlConditon} ORDER BY initTime DESC";
+            string sql = $"SELECT * FROM code_verification {sqlConditon} ORDER BY initTime DESC";
             CodeVerification code = commonDB.QueryFirstOrDefault<CodeVerification>(sql, codeSimple);
-            if (code == null || string.IsNullOrWhiteSpace(code.values))
+            if (code == null || string.IsNullOrWhiteSpace(code.value))
             {
                 throw new VerificationException("验证码不存在，请先点击发送验证码");
             }
-            if (code.values.Equals(login.code))
+            if (code.value.Equals(login.code))
             {
                 //登录操作  （或注册）
                 Users user = new Users()

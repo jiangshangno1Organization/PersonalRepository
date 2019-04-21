@@ -15,3 +15,12 @@ E:\WorkDir\Api\System\WebFinalApi\AFinalDAL\obj\Debug\FinalDAL.csproj.CoreCompil
 E:\WorkDir\Api\System\WebFinalApi\AFinalDAL\obj\Debug\FinalDAL.csproj.CopyComplete
 E:\WorkDir\Api\System\WebFinalApi\AFinalDAL\obj\Debug\AFinalDAL.dll
 E:\WorkDir\Api\System\WebFinalApi\AFinalDAL\obj\Debug\AFinalDAL.pdb
+E:\WorkDir\Web\System\WebFinalApi\AFinalDAL\bin\Debug\AFinalDAL.dll
+E:\WorkDir\Web\System\WebFinalApi\AFinalDAL\bin\Debug\AFinalDAL.pdb
+E:\WorkDir\Web\System\WebFinalApi\AFinalDAL\bin\Debug\Dapper.dll
+E:\WorkDir\Web\System\WebFinalApi\AFinalDAL\bin\Debug\Dapper.xml
+E:\WorkDir\Web\System\WebFinalApi\AFinalDAL\obj\Debug\FinalDAL.csprojAssemblyReference.cache
+E:\WorkDir\Web\System\WebFinalApi\AFinalDAL\obj\Debug\FinalDAL.csproj.CoreCompileInputs.cache
+E:\WorkDir\Web\System\WebFinalApi\AFinalDAL\obj\Debug\FinalDAL.csproj.CopyComplete
+E:\WorkDir\Web\System\WebFinalApi\AFinalDAL\obj\Debug\AFinalDAL.dll
+E:\WorkDir\Web\System\WebFinalApi\AFinalDAL\obj\Debug\AFinalDAL.pdb

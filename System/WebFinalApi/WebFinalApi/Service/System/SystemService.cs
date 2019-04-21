@@ -66,25 +66,28 @@ namespace WebFinalApi.Service
                 nameof(code.status)
             });
 
-            string sql = $"SELECT * FROM CodeVerification WHERE {sqlCondition} ORDER BY initTime DESC";
+            string sql = $"SELECT * FROM code_verification {sqlCondition} ORDER BY initTime DESC";
             CodeVerification lastCode = commonDB.QueryFirstOrDefault<CodeVerification>(sql, code);
         
-            if (lastCode != null && !string.IsNullOrWhiteSpace(lastCode.values))
+            if (lastCode != null && !string.IsNullOrWhiteSpace(lastCode.value))
             {
                 //判断是否过期
                 if (lastCode.initTime.AddSeconds(effectiveSeconds) > dtNow)
                 {
                     lastCode.initTime = dtNow;
                     //没过期 更新验证码有效时间
-                    UpdateSqlGenerate(lastCode, new List<string>() { nameof(lastCode.initTime) }, new List<string>() { nameof(lastCode.id) });
+                    sqlCondition = UpdateSqlGenerate(lastCode, new List<string>() { nameof(lastCode.initTime) }, new List<string>() { nameof(lastCode.id) });
+                    sql = $"UPDATE code_verification {sqlCondition}";
+                    commonDB.Excute(sql, lastCode);
                     return true;
                 }
                 else
                 {
                     lastCode.status = "2";
                     //标记验证码已失效
-                    UpdateSqlGenerate(lastCode, new List<string>() { nameof(lastCode.status) }, new List<string>() { nameof(lastCode.id) });
-
+                    sqlCondition = UpdateSqlGenerate(lastCode, new List<string>() { nameof(lastCode.status) }, new List<string>() { nameof(lastCode.id) });
+                    sql = $"UPDATE code_verification {sqlCondition}";
+                    commonDB.Excute(sql, lastCode);
                     int needIntervalSeconds = ( lastCode.initTime.AddSeconds(sendIntervalSeconds) - dtNow).Seconds;
                     //判断是否达到发送间隔
                     if (needIntervalSeconds>0)
@@ -99,7 +102,7 @@ namespace WebFinalApi.Service
             }
             ///生成6位values
             CodeVerificationHelper codeHelper = new CodeVerificationHelper();
-            code.values = codeHelper.GetVerificationCode();
+            code.value = codeHelper.GetVerificationCode();
             sqlCondition = InsertSqlGenerate(code, new List<string>()
             {
                 nameof(code.failtime),
@@ -107,10 +110,10 @@ namespace WebFinalApi.Service
                 nameof(code.mobile),
                 nameof(code.status),
                 nameof(code.type),
-                nameof(code.values),
+                nameof(code.value),
                 nameof(code.ifSend)
             });
-            sql = $@"INSERT INTO CodeVerification {sqlCondition}";
+            sql = $@"INSERT INTO code_verification {sqlCondition}";
             return commonDB.Excute(sql, code) == 1;
         }
 
