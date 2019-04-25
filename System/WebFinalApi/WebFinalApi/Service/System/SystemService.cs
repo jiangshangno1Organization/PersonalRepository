@@ -24,11 +24,7 @@ namespace WebFinalApi.Service
         {
         }
 
-        public DateTime GetSystemTime()
-        {
-            DateTime dt = commonDB.ExecuteScalar<DateTime>("SELECT GETDATE()");
-            return dt;
-        }
+     
 
         /// <summary>
         /// 发送验证码

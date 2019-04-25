@@ -25,7 +25,15 @@ namespace WebFinalApi.Filter
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            //actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, new { a = 1});
+            //获取头部
+            //从请求头中获取 Authorization
+            string key = actionContext.Request.Headers.Authorization.Scheme;
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, new { a = "未登录" });
+            }
+            //int userID = Helper.CodeVerificationHelper.ExplainUserID(key);
+
             base.OnAuthorization(actionContext);
         }
 

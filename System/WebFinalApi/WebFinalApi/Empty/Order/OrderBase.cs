@@ -9,7 +9,7 @@ namespace WebFinalApi.Empty
     {
         public int ID { get; set; }
         public int userID { get; set; }
-        public int status { get; set; }
+        public string status { get; set; }
         public decimal sum { get; set; }
         public DateTime inittime { get; set; }
         public string ifpay { get; set; }
@@ -31,6 +31,8 @@ namespace WebFinalApi.Empty
         /// 修改时间
         /// </summary>
         public DateTime changetime { get; set; }
+
+        public int baseID { get; set; }
 
     }
 }

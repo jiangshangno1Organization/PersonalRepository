@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using WebFinalApi.CustomException;
 using WebFinalApi.Empty;
 using WebFinalApi.Models.Goods;
 
@@ -20,14 +21,39 @@ namespace WebFinalApi.Service
 
         #region 获取系统设置
 
+        /// <summary>
+        /// 获取系统设置
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
         public SystemSet GetSystemSet(int ID)
         {
             string sql = $"SELECT * FROM sys_set WHERE id = {ID}";
             return commonDB.QueryFirstOrDefault<SystemSet>(sql, new { id = ID });
         }
 
-        #endregion
+        /// <summary>
+        /// 获取系统时间
+        /// </summary>
+        /// <returns></returns>
+        public DateTime GetSystemTime()
+        {
+            DateTime dt = commonDB.ExecuteScalar<DateTime>("SELECT GETDATE()");
+            return dt;
+        }
 
+        /// <summary>
+        /// 获取自增ID
+        /// </summary>
+        /// <param name="codeKey"></param>
+        /// <returns></returns>
+        public int GetCode(string codeKey)
+        {
+            string sql = $"SELECT  value FROM  sys_code WHERE codekey = '{codeKey}' UPDATE sys_code set value = value+1 WHERE codekey = '{codeKey}'";
+            return commonDB.ExecuteScalar<int>(sql);
+        }
+
+        #endregion
 
         #region 分类信息
 
@@ -90,7 +116,7 @@ namespace WebFinalApi.Service
         /// </summary>
         /// <param name="IDs"></param>
         /// <returns></returns>
-        public IEnumerable<Goods> GetGoodsData(IEnumerable<int> GoodsIDs)
+        public IEnumerable<Goods> GetGoodsDataByGoodsIDs(IEnumerable<int> GoodsIDs)
         {
             string sql = "SELECT * FROM goods_data FROM goods_data WHERE goodsid IN @goodsids AND ifdel = '0'";
             return commonDB.Query<Goods>(sql, new { goodsids = GoodsIDs });
@@ -101,7 +127,7 @@ namespace WebFinalApi.Service
         /// </summary>
         /// <param name="IDs"></param>
         /// <returns></returns>
-        public Goods GetGoodsData(int ID)
+        public Goods GetGoodsDataBygoodsID(int ID)
         {
             string sql = "SELECT * FROM goods_data FROM goods_data WHERE goodsid = @goodsid AND ifdel = '0'";
             return commonDB.QueryFirstOrDefault<Goods>(sql, new { goodsids = ID });
@@ -127,19 +153,19 @@ namespace WebFinalApi.Service
         public GoodsDataOutput GenerateGoods(IEnumerable<int> goodsIDs)
         {
             //基础信息
-            var goodsData = GetGoodsData(goodsIDs);
+            var goodsData = GetGoodsDataByGoodsIDs(goodsIDs);
             //商品图片
-            var goodsPicture = GetGoodsPictures(goodsData.Select(i => i.goodsId), true);
+            var goodsPicture = GetGoodsPictures(goodsData.Select(i => i.goodsID), true);
             //组装
             var goodsDto = from goods in goodsData
-                           join picture in goodsPicture on goods.goodsId equals picture.goodsId
+                           join picture in goodsPicture on goods.goodsID equals picture.goodsId
                            select new GoodsCell()
                            {
-                               goodsID = goods.goodsId,
+                               goodsID = goods.goodsID,
                                aPrice = goods.aPrice,
                                price = goods.price,
-                               classID = goods.classId,
-                               goodsCD = goods.goodsCd,
+                               classID = goods.classID,
+                               goodsCD = goods.goodsCD,
                                goodsName = goods.goodsName,
                                text1 = goods.text1,
                                text2 = goods.text2,
@@ -163,6 +189,94 @@ namespace WebFinalApi.Service
 
         #endregion
 
+        #region 订单相关
+
+        /// <summary>
+        /// 获取购物车信息 通过用户ID
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public IEnumerable<OrderCart> GetCartsDataByUserID(int userID)
+        {
+            OrderCart orderCart = new OrderCart()
+            {
+                userID = userID
+            };
+            string sqlCondition = SelectSqlGenerate<OrderCart>(orderCart, new List<string>() { nameof(orderCart.userID) });
+            string sql = $"SELECT * FROM order_cart {sqlCondition} ";
+            return commonDB.Query<OrderCart>(sql, orderCart);
+        }
+
+        /// <summary>
+        /// 获取购物车信息 通过购物车ID
+        /// </summary>
+        /// <param name="IDs"></param>
+        /// <returns></returns>
+        public IEnumerable<OrderCart> GetCartsDataByCartIDs(IEnumerable<int> IDs)
+        {
+            string sql = $"SELECT * FROM order_cart WHERE ID IN @ids ";
+            return commonDB.Query<OrderCart>(sql, new { ids = IDs});
+        }
+
+        /// <summary>
+        /// 生存订单
+        /// </summary>
+        /// <param name="orderBase"></param>
+        /// <param name="orderDetails"></param>
+        public void GenerateOrder(OrderBase orderBase ,IEnumerable<OrderDetail> orderDetails)
+        {
+            string sqlConditon = InsertSqlGenerate(orderBase, new List<string>()
+            {
+                nameof(orderBase.baseID),
+                nameof(orderBase.ifdel),
+                nameof(orderBase.ifpay),
+                nameof(orderBase.inittime),
+                nameof(orderBase.mobile),
+                nameof(orderBase.status),
+                nameof(orderBase.sum),
+                nameof(orderBase.userID),
+                nameof(orderBase.userName)
+            });
+            string sql = $"INSERT INTO order_base {sqlConditon} ";
+            if (commonDB.Excute(sql, orderBase) != 1)
+            {
+                throw new OperationException("订单基础生成失败");
+            }
+            foreach (OrderDetail item in orderDetails)
+            {
+                sqlConditon = InsertSqlGenerate(item, new List<string>()
+                {
+                    nameof(item.baseID),
+                    nameof(item.allprice),
+                    nameof(item.count),
+                    nameof(item.gdsCD),
+                    nameof(item.gdsID),
+                    nameof(item.unitprice)
+                });
+                sql = $"INSERT INTO order_detail {sqlConditon}";
+                if (commonDB.Excute(sql, orderBase) != 1)
+                {
+                    throw new OperationException("订单基础生成失败");
+                }
+            }
+        }
+
+        #endregion
+
+        #region 用户信息相关
+
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public Users GetUserDataByUserID(int userID)
+        {
+            string sql = $"SELECT * FROM users WHERE userid = @id AND ifdel = '0'";
+            return commonDB.QueryFirstOrDefault(sql, new { id = userID });
+        }
+
+        #endregion
 
         #region SQL构建 
         /// <summary>
@@ -224,6 +338,14 @@ namespace WebFinalApi.Service
             return $" WHERE {string.Join("AND", allConditon)}";
         }
 
+        /// <summary>
+        /// UPDATE语句生成
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataModel"></param>
+        /// <param name="updateFileNames"></param>
+        /// <param name="accordingFileNames"></param>
+        /// <returns></returns>
         public string UpdateSqlGenerate<T>(T dataModel, IEnumerable<string> updateFileNames, IEnumerable<string> accordingFileNames)
         {
             var type = dataModel.GetType();//获取属性集合 
@@ -253,8 +375,20 @@ namespace WebFinalApi.Service
             }
             return $" SET {string.Join(",", allConditon)} WHERE {string.Join("AND", allConditon2)}";
         }
-        #endregion
 
+        /// <summary>
+        /// DELETE语句生成
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dataModel"></param>
+        /// <param name="accordingFileNames"></param>
+        /// <returns></returns>
+        public string DeleteSqlGenerate<T>(T dataModel, IEnumerable<string> accordingFileNames)
+        {
+            return SelectSqlGenerate(dataModel, accordingFileNames);
+        }
+
+        #endregion
 
     }
 }

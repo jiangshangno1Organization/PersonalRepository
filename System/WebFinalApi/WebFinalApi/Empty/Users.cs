@@ -7,7 +7,7 @@ namespace WebFinalApi.Empty
 {
     public class Users
     {
-        public string userId { get; set; }
+        public int userId { get; set; }
         public string userName { get; set; }
         public string mobile { get; set; }
         public string password { get; set; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebFinalApi.Empty.Order
+namespace WebFinalApi.Empty
 {
     public class OrderCart
     {
@@ -11,7 +11,7 @@ namespace WebFinalApi.Empty.Order
         public int userID { get; set; }
         public int gdsID { get; set; }
         public int count { get; set;}
-        public DateTime addtime { get; set; }
+        public DateTime addTime { get; set; }
         public string memo { get; set; }
     }
 }

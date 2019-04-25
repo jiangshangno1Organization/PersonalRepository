@@ -12,7 +12,7 @@ namespace WebFinalApi.Service
         /// 获取系统时间
         /// </summary>
         /// <returns></returns>
-        DateTime GetSystemTime();
+ 
 
 
         bool SendVerificationCode(string mobile);

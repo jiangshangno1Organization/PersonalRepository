@@ -21,7 +21,10 @@ namespace WebFinalApi
                 defaults: new { id = RouteParameter.Optional }
             );
             //config.Services.Replace(typeof(IExceptionHandler), new Other.TCErrorHandler());
-            config.Filters.Add(new AuthorizationFilter());
+
+            //权限验证
+            //config.Filters.Add(new AuthorizationFilter());
+
         }
     }
 }

@@ -198,9 +198,13 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CustomException\VerificationException.cs" />
+    <Compile Include="Empty\Category\Category.cs" />
     <Compile Include="Empty\CodeVerification.cs" />
     <Compile Include="Empty\Goods\Goods.cs" />
     <Compile Include="Empty\Goods\GoodsPicture.cs" />
+    <Compile Include="Empty\Order\OrderBase.cs" />
+    <Compile Include="Empty\Order\OrderCart.cs" />
+    <Compile Include="Empty\Order\OrderDetail.cs" />
     <Compile Include="Empty\SystemSet.cs" />
     <Compile Include="Empty\Users.cs" />
     <Compile Include="Filter\AuthorizationFilter.cs" />
@@ -217,6 +221,8 @@
     <Compile Include="Service\BaseService.cs" />
     <Compile Include="Service\Goods\GoodsService.cs" />
     <Compile Include="Service\Goods\IGoodsService.cs" />
+    <Compile Include="Service\Order\IOrderService.cs" />
+    <Compile Include="Service\Order\OrderService.cs" />
     <Compile Include="Service\System\ISystemService.cs" />
     <Compile Include="Service\User\IUserService.cs" />
     <Compile Include="Service\System\SystemService.cs" />

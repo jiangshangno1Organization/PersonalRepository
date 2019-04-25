@@ -44,7 +44,6 @@ namespace WebFinalApi.Controllers
         /// <returns></returns>
         public Users Get(int id)
         {
-            DateTime dt = systemService.GetSystemTime();
             return _userList.FirstOrDefault();// (i => i.UserID == id);
         }
 

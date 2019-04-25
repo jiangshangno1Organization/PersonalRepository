@@ -25,7 +25,7 @@ namespace WebFinalApi.Service
         {
             //基础信息
             var goodsData = base.GetAllGoods();
-            return GenerateGoods(goodsData.Select(i=>i.goodsId));
+            return GenerateGoods(goodsData.Select(i=>i.goodsID));
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace WebFinalApi.Service
             {
                 return null;
             }
-            return GenerateGoods(goods.Select(i => i.goodsId));
+            return GenerateGoods(goods.Select(i => i.goodsID));
         }
     }
 }
