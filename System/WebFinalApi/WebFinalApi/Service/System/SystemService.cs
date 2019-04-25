@@ -20,11 +20,8 @@ namespace WebFinalApi.Service
 {
     public class SystemService : BaseService, ISystemService
     {
-        CommonDB commonDB;
-
-        public SystemService(CommonDB dB)
+        public SystemService(CommonDB dB) : base(dB)
         {
-            commonDB = dB;
         }
 
         public DateTime GetSystemTime()
@@ -53,10 +50,10 @@ namespace WebFinalApi.Service
             };
 
             //获取验证码有效时间
-            int effectiveSeconds = 180;
+            int effectiveSeconds = int.Parse(GetSystemSet(0).value);
 
             //获取验证码发送间隔
-            int sendIntervalSeconds = 300;
+            int sendIntervalSeconds = int.Parse(GetSystemSet(1).value);
 
             //获取最后一次发送的 有效（未使用） 验证码
             string sqlCondition = SelectSqlGenerate(code ,new List<string>()

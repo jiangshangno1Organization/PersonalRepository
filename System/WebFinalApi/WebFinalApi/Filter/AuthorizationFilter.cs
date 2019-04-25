@@ -21,12 +21,17 @@ namespace WebFinalApi.Filter
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class AuthorizationFilter : AuthorizationFilterAttribute
     {
-        public dynamic authFilterType { get; set; }
+        public authFilterType  authFilter { get; set; }
 
         public override void OnAuthorization(HttpActionContext actionContext)
         {
             //actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, new { a = 1});
             base.OnAuthorization(actionContext);
+        }
+
+        public enum authFilterType
+        {
+             needLogin = 1
         }
     }
   

@@ -12,7 +12,7 @@ namespace WebFinalApi.Controllers
 {
     public class SystemController : ApiController
     {
-        private ISystemService SystemService;
+        private readonly ISystemService SystemService;
         public SystemController(ISystemService service)
         {
             SystemService = service;

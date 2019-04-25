@@ -11,10 +11,10 @@ using WebFinalApi.Service;
 
 namespace WebFinalApi.Controllers
 {
-    public class UserController : ApiController
+    public class UserController : BaseController
     {
-        private IUserService userService;
-        private ISystemService systemService;
+        private readonly IUserService userService;
+        private readonly ISystemService systemService;
 
         public UserController(IUserService  user, ISystemService system)
         {
@@ -41,6 +41,7 @@ namespace WebFinalApi.Controllers
         public void ssss(Users user)
         {
         }
+
         #region 帐号登录
 
         /// <summary>
@@ -51,7 +52,6 @@ namespace WebFinalApi.Controllers
         [HttpPut]
         public BaseResponseModel<LoginOutPut> UserLogin(LoginModel loginModel)
         {
-            string remindMsg = string.Empty;
             string errMsg = string.Empty;
             LoginOutPut loginOutPut = new LoginOutPut();
             try
@@ -62,8 +62,7 @@ namespace WebFinalApi.Controllers
             }
             catch (VerificationException ex)
             {
-                remindMsg = ex.Message;
-                loginOutPut.remindMsg = remindMsg;
+                loginOutPut.remindMsg = ex.Message;
             }
             catch (OperationException ex)
             {
