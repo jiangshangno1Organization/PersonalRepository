@@ -190,13 +190,18 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ControllerAdditional.cs" />
+    <Compile Include="Controllers\GoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="CustomException\VerificationException.cs" />
     <Compile Include="Empty\CodeVerification.cs" />
+    <Compile Include="Empty\Goods\Goods.cs" />
+    <Compile Include="Empty\Goods\GoodsPicture.cs" />
+    <Compile Include="Empty\SystemSet.cs" />
     <Compile Include="Empty\Users.cs" />
     <Compile Include="Filter\AuthorizationFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -204,10 +209,14 @@
     </Compile>
     <Compile Include="Helper\CodeVerificationHelper.cs" />
     <Compile Include="Models\BaseResponseModel.cs" />
+    <Compile Include="Models\Common\UserDataContent.cs" />
+    <Compile Include="Models\Goods\GoodsDataDto.cs" />
     <Compile Include="Models\User\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponsePack\ResponsePack.cs" />
     <Compile Include="Service\BaseService.cs" />
+    <Compile Include="Service\Goods\GoodsService.cs" />
+    <Compile Include="Service\Goods\IGoodsService.cs" />
     <Compile Include="Service\System\ISystemService.cs" />
     <Compile Include="Service\User\IUserService.cs" />
     <Compile Include="Service\System\SystemService.cs" />
