@@ -22,10 +22,22 @@ namespace WebFinalApi.Service
             return commonDB.Query<Users>(sql);
         }
 
-        public Users GetUser(string ID)
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
+        public UserDataOutput GetUser(int UserID)
         {
-            string sql = "SELECT * FROM users WHERE userid = @id";
-            return commonDB.QueryFirstOrDefault<Users>(sql, new { id = ID });
+            var data = GetUserDataByUserID(UserID);
+            var orderCount = GetOrderCount(UserID);
+            return new UserDataOutput()
+            {
+                mobile = data.mobile,
+                name = data.userName,
+                needPayOrderCount = orderCount.Item1,
+                waitRecive = orderCount.Item2
+            };
         }
 
         #region 帐号注册

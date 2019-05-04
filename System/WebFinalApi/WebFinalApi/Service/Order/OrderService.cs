@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using WebFinalApi.CustomException;
 using WebFinalApi.Empty;
+using WebFinalApi.Models.Order;
 using WebFinalApi.Service;
 
 namespace WebFinalApi.Service
@@ -15,16 +16,18 @@ namespace WebFinalApi.Service
         {
         }
 
+        #region 购物车相关
+
         /// <summary>
         /// 获取用户购物车信息
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public IEnumerable<OrderCart> GetUserCart(int userID)
+        public OrderCartDto GetUserCart(int userID)
         {
             //通过userID 获取用户购物车信息
             var cartData = GetCartsDataByUserID(userID);
-            return cartData;
+            return new OrderCartDto() { orderCarts = cartData.ToList() };
         }
 
         /// <summary>
@@ -101,13 +104,21 @@ namespace WebFinalApi.Service
             }
         }
 
+        #endregion
+
+        #region 订单相关
+
         /// <summary>
         /// 购物车提交订单
         /// </summary>
         /// <returns></returns>
-        public int SubmitOrderByCart(int userID, List<int> IDs, bool ifSumbitAll = false)
+        public OrderSubmitDto SubmitOrderByCart(int userID, List<int> IDs, bool ifSumbitAll = false)
         {
-           
+            string remindMsg = string.Empty;
+            bool res = false;
+            int orderID = -1;
+            try
+            {
                 //获取用户信息
                 var user = GetUserDataByUserID(userID);
                 List<OrderCart> orderCarts = null;
@@ -130,26 +141,26 @@ namespace WebFinalApi.Service
                 VerificationGoodsABT(ref orderCarts, goodsData, ref fileCartIDs);
 
                 //生成待支付订单
-                GenerateOrderForCarts(orderCarts, goodsData, user);
-
+                orderID = GenerateOrderForCarts(orderCarts, goodsData, user);
                 commonDB.Commit();
-
-
-            try
-            {
+                res = true;
             }
             catch (VerificationException ex)
             {
+                remindMsg = ex.Message;
                 commonDB.Rollback();
             }
             catch (Exception ex)
             {
+                commonDB.Rollback();
+                throw ex;
             }
-            finally
+            return new OrderSubmitDto()
             {
-            }
-
-            throw new NotImplementedException();
+                baseOrderID = orderID,
+                ifSuccess = res,
+                remindMsg = remindMsg
+            };
         }
 
         /// <summary>
@@ -174,8 +185,14 @@ namespace WebFinalApi.Service
             }
         }
 
-
-        private void GenerateOrderForCarts(List<OrderCart> carts ,List<Goods> goodsDatas,Users user)
+        /// <summary>
+        /// 生成订单
+        /// </summary>
+        /// <param name="carts"></param>
+        /// <param name="goodsDatas"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private int GenerateOrderForCarts(List<OrderCart> carts ,List<Goods> goodsDatas,Users user)
         {
             //生成订单ID
             int orderID = GetCode("orderid");
@@ -208,14 +225,79 @@ namespace WebFinalApi.Service
             };
             //执行生存
             GenerateOrder(orderBase, priceDatas);
+            return orderID;
 
         }
+
+        #endregion
+
+        #region 订单数据获取
+
+        /// <summary>
+        /// 获取订单列表
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public List<OrderDataDto> GetOrderList(int userID ,string type)
+        {
+            string status = string.Empty;
+            switch (type)
+            {
+                case "0":
+                    status = "LR";
+                    break;
+                case "1":
+                    status = "SX";
+                    break;
+                case "2":
+                    status = "FH";
+                    break;
+                default:
+                    break;
+            }
+            string sql = $"SELECT * FROM order_base WHERE userid = @id AND ifdel = '0' AND status = @status ";
+            var orderBase = commonDB.Query<OrderBase>(sql, new { id = userID, status = status });
+
+            if (orderBase != null && orderBase.Count() > 0)
+            {
+                //orderDetail
+                sql = $"SELECT * FROM order_detail WHERE baseid in @baseids ";
+                var orderDetail = GetOrderDetailsByBaseIDs(orderBase.Select(i=>i.baseID));
+
+                //组装
+                return orderBase.Select(i => new OrderDataDto()
+                {
+                    address = i.address1,
+                    baseID = i.baseID,
+                    factSum = i.factNum,
+                    mobile = i.mobile,
+                    sum = i.sum,
+                    userName = i.userName,
+                    orderDetails = orderDetail.Where(t => t.baseID.Equals(i.baseID)).Select(t => new OrderDetailDto()
+                    {
+                        baseID = t.baseID,
+                        allPrice = t.allprice,
+                        goodsCD = t.gdsCD,
+                        goodsID = t.gdsID,
+                        goodsName = t.gdsName,
+                        unitPrice = t.unitprice
+                    }).ToList()
+                }).ToList();
+            }
+            else
+            {
+                return new List<OrderDataDto>() { };
+            }
+
+        }
+
+        #endregion
 
         public int PayOrder(int orderID)
         {
             throw new NotImplementedException();
         }
 
-  
     }
 }

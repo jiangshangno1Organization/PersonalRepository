@@ -219,7 +219,7 @@ namespace WebFinalApi.Service
         }
 
         /// <summary>
-        /// 生存订单
+        /// 生成订单
         /// </summary>
         /// <param name="orderBase"></param>
         /// <param name="orderDetails"></param>
@@ -259,6 +259,36 @@ namespace WebFinalApi.Service
                     throw new OperationException("订单基础生成失败");
                 }
             }
+        }
+
+        /// <summary>
+        /// 获取订单数量
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public Tuple<int, int> GetOrderCount(int userID)
+        {
+            string sql = $"SELECT COUNT(*) FROM order_base  WHERE ifdel = '0' AND status = 'LR' AND userID = '{userID}'";
+            int needPay = commonDB.ExecuteScalar<int>(sql);
+            sql = $"SELECT COUNT(*) FROM order_base  WHERE ifdel = '0' AND status = 'SX' AND userID = '{userID}'";
+            int waitRecive = commonDB.ExecuteScalar<int>(sql);
+            return new Tuple<int, int>(needPay, waitRecive);
+        }
+
+        #endregion
+
+
+        #region 订单数据获取
+
+        /// <summary>
+        /// 获取订单详情
+        /// </summary>
+        /// <param name="baseIDs"></param>
+        /// <returns></returns>
+        public IEnumerable<OrderDetail> GetOrderDetailsByBaseIDs(IEnumerable<int> baseIDs)
+        {
+            string sql = "SELECT * FROM order_detail WHERE baseID IN @ids";
+            return commonDB.Query<OrderDetail>(sql, new { ids = baseIDs });
         }
 
         #endregion

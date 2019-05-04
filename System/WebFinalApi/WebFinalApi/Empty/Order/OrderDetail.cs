@@ -14,6 +14,7 @@ namespace WebFinalApi.Empty
         public int baseID { get; set; }
         public int gdsID { get; set; }
         public string gdsCD { get; set; }
+        public string gdsName { get; set; }
         public int count { get; set;}
         /// <summary>
         /// 单价

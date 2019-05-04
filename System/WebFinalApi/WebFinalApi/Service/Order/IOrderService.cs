@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebFinalApi.Empty;
+using WebFinalApi.Models.Order;
 
 namespace WebFinalApi.Service
 {
@@ -15,7 +16,16 @@ namespace WebFinalApi.Service
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        IEnumerable<OrderCart> GetUserCart(int userID);
+        OrderCartDto GetUserCart(int userID);
+
+        /// <summary>
+        /// 添加到购物车
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="gdsID"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        bool ADDToCart(int userID, int gdsID, int count);
 
         /// <summary>
         /// 订单提交
@@ -24,12 +34,20 @@ namespace WebFinalApi.Service
         /// <param name="IDs"></param>
         /// <param name="ifSumbitAll"></param>
         /// <returns></returns>
-        int SubmitOrderByCart(int userID, List<int> IDs, bool ifSumbitAll = false);
+        OrderSubmitDto SubmitOrderByCart(int userID, List<int> IDs, bool ifSumbitAll = false);
 
         /// <summary>
         /// 订单支付
         /// </summary>
         /// <returns></returns>
         int PayOrder(int orderID);
+
+        /// <summary>
+        /// 获取订单列表（0：未付款 1：未收货 2：已完成）
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        List<OrderDataDto> GetOrderList(int userID, string type);
     }
 }

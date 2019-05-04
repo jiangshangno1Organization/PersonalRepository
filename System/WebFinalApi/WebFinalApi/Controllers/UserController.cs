@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using WebFinalApi.CustomException;
 using WebFinalApi.Empty;
+using WebFinalApi.Filter;
 using WebFinalApi.Models;
 using WebFinalApi.Models.User;
 using WebFinalApi.Service;
@@ -16,30 +17,10 @@ namespace WebFinalApi.Controllers
         private readonly IUserService userService;
         private readonly ISystemService systemService;
 
-        public UserController(IUserService  user, ISystemService system)
+        public UserController(IUserService user, ISystemService system)
         {
             userService = user;
             systemService = system;
-        }
-
-        [HttpGet]
-        public string GetUserData(int ID)
-        {
-            return "";
-        }
-
-        [HttpPost]
-        [ActionName(name: "ChangeUserData2")]
-        public string ChangeUserData()
-        {
-            return "";
-        }
-
-
-        [HttpPost]
-        [ActionName(name: "ChangeUserData1")]
-        public void ssss(Users user)
-        {
         }
 
         #region 帐号登录
@@ -88,5 +69,22 @@ namespace WebFinalApi.Controllers
         }
 
         #endregion
+
+        #region 用户信息获取
+
+        /// <summary>
+        /// 获取用户中心信息
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [AuthorizationFilter]
+        public BaseResponseModel<UserDataOutput> GetUserData()
+        {
+            var user = userService.GetUser(userDataContent.userId);
+            return ResponsePack.Responsing(user);
+        }
+
+        #endregion
+
     }
 }

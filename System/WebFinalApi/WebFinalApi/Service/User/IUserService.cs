@@ -9,7 +9,8 @@ namespace WebFinalApi.Service
 {
     public interface IUserService 
     {
-        Users GetUser(string ID);
+
+        UserDataOutput GetUser(int userID);
 
         IEnumerable<Users> GetAllUsers();
 

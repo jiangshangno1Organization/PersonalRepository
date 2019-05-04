@@ -17,10 +17,13 @@ namespace WebFinalApi.Controllers
         public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
         {
             //从请求头中获取 Authorization
-            string key = controllerContext.Request.Headers.Authorization.Scheme;
-            if (!string.IsNullOrWhiteSpace(key))
+            if (controllerContext.Request.Headers.Authorization!=null)
             {
-                userDataContent = new UserDataContent() { userId = Helper.CodeVerificationHelper.ExplainUserID(key) };
+                string key = controllerContext.Request.Headers.Authorization.Scheme;
+                if (!string.IsNullOrWhiteSpace(key))
+                {
+                    userDataContent = new UserDataContent() { userId = Helper.CodeVerificationHelper.ExplainUserID(key) };
+                }
             }
             return base.ExecuteAsync(controllerContext, cancellationToken);
         }

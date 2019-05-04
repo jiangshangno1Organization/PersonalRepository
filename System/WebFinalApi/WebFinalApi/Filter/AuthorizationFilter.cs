@@ -33,7 +33,6 @@ namespace WebFinalApi.Filter
                 actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, new { a = "未登录" });
             }
             //int userID = Helper.CodeVerificationHelper.ExplainUserID(key);
-
             base.OnAuthorization(actionContext);
         }
 

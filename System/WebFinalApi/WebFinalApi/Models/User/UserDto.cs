@@ -29,4 +29,16 @@ namespace WebFinalApi.Models.User
         public string remindMsg { get; set; }
     }
 
+    public class UserDataOutput
+    {
+        public string name { get; set; }
+
+        public string mobile { get; set; }
+
+        public int needPayOrderCount { get; set; }
+
+        public int waitRecive { get; set; }
+
+    }
+
 }

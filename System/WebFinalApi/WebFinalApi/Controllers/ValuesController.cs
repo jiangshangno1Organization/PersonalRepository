@@ -10,8 +10,6 @@ using WebFinalApi.Service;
 
 namespace WebFinalApi.Controllers
 {
-  
-
     public class ValuesController : ApiController
     {
         private static List<Users> _userList;
@@ -22,6 +20,7 @@ namespace WebFinalApi.Controllers
             systemService = service;
             _userList = new List<Users>
             {
+                new Users (){ userId = 12}
             };
         }
         /// <summary>
