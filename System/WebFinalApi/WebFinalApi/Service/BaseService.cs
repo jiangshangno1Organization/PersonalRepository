@@ -281,6 +281,17 @@ namespace WebFinalApi.Service
         #region 订单数据获取
 
         /// <summary>
+        /// 获取订单基础数据 通过baseID
+        /// </summary>
+        /// <param name="baseID"></param>
+        /// <returns></returns>
+        public OrderBase GetOrderBaseByBaseID(int baseID)
+        {
+            string sql = $"SELECTY * FROM order_base WHERE baseid = @id AND ifdel = '0'";
+            return commonDB.QueryFirstOrDefault<OrderBase>(sql, new { id = baseID });
+        }
+
+        /// <summary>
         /// 获取订单详情
         /// </summary>
         /// <param name="baseIDs"></param>

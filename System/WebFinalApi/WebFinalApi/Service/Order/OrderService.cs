@@ -292,6 +292,41 @@ namespace WebFinalApi.Service
 
         }
 
+        /// <summary>
+        /// 获取订单详情
+        /// </summary>
+        /// <param name="baseID"></param>
+        /// <returns></returns>
+        public OrderDataDto GetOrderDetail(int baseID)
+        {
+            var baseData = GetOrderBaseByBaseID(baseID);
+            var detailData = GetOrderDetailsByBaseIDs(new List<int>() { baseID });
+
+            if (baseData != null && detailData != null && detailData.Count() > 0)
+            {
+                throw new VerificationException("订单数据不存在.");
+            }
+            OrderDataDto order = new OrderDataDto()
+            {
+                address = baseData.address1,
+                baseID = baseData.baseID,
+                factSum = baseData.factNum,
+                mobile = baseData.mobile,
+                sum = baseData.sum,
+                userName = baseData.userName,
+                orderDetails = detailData.Select(i => new OrderDetailDto()
+                {
+                    allPrice = i.allprice,
+                    baseID = i.baseID,
+                    goodsCD = i.gdsCD,
+                    goodsID = i.gdsID,
+                    goodsName = i.gdsName,
+                    unitPrice = i.unitprice
+                }).ToList()
+            };
+            return order;
+        }
+
         #endregion
 
         public int PayOrder(int orderID)

@@ -100,6 +100,18 @@ namespace WebFinalApi.Controllers
             return ResponsePack.Responsing(orderService.GetOrderList(userDataContent.userId, type));
         }
 
+        /// <summary>
+        /// 订单详情数据获取
+        /// </summary>
+        /// <param name="baseID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AuthorizationFilter]
+        public BaseResponseModel<OrderDataDto> GetOrderDetail(int baseID)
+        {
+            return ResponsePack.Responsing(orderService.GetOrderDetail(baseID));
+        }
+
         #endregion
     }
 }

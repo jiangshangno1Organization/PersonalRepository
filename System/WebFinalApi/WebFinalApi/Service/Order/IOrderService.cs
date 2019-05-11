@@ -11,6 +11,8 @@ namespace WebFinalApi.Service
     public interface IOrderService
     {
 
+        #region 购物车相关
+
         /// <summary>
         /// 获取用户购物车
         /// </summary>
@@ -27,6 +29,10 @@ namespace WebFinalApi.Service
         /// <returns></returns>
         bool ADDToCart(int userID, int gdsID, int count);
 
+        #endregion
+
+        #region 订单相关
+
         /// <summary>
         /// 订单提交
         /// </summary>
@@ -41,6 +47,9 @@ namespace WebFinalApi.Service
         /// </summary>
         /// <returns></returns>
         int PayOrder(int orderID);
+        #endregion
+
+        #region 订单数据获取
 
         /// <summary>
         /// 获取订单列表（0：未付款 1：未收货 2：已完成）
@@ -49,5 +58,15 @@ namespace WebFinalApi.Service
         /// <param name="type"></param>
         /// <returns></returns>
         List<OrderDataDto> GetOrderList(int userID, string type);
+
+        /// <summary>
+        /// 获取订单基础数据
+        /// </summary>
+        /// <param name="baseID"></param>
+        /// <returns></returns>
+        OrderDataDto GetOrderDetail(int baseID);
+
+        #endregion
+
     }
 }
