@@ -10,6 +10,8 @@ namespace WebFinalApi
     {
         public static void Register(HttpConfiguration config)
         {
+
+          
             // Web API 配置和服务
 
             // Web API 路由
@@ -21,10 +23,11 @@ namespace WebFinalApi
                 defaults: new { id = RouteParameter.Optional }
             );
             //config.Services.Replace(typeof(IExceptionHandler), new Other.TCErrorHandler());
-
             //权限验证
             //config.Filters.Add(new AuthorizationFilter());
-
         }
+
+
+
     }
 }
