@@ -288,7 +288,7 @@ namespace WebFinalApi.Service
         /// <returns></returns>
         public OrderBase GetOrderBaseByBaseID(int baseID)
         {
-            string sql = $"SELECTY * FROM order_base WHERE baseid = @id AND ifdel = '0'";
+            string sql = $"SELECT * FROM order_base WHERE baseid = @id AND ifdel = '0'";
             return commonDB.QueryFirstOrDefault<OrderBase>(sql, new { id = baseID });
         }
 
