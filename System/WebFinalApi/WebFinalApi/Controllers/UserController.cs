@@ -80,7 +80,7 @@ namespace WebFinalApi.Controllers
         [AuthorizationFilter]
         public BaseResponseModel<UserDataOutput> GetUserData()
         {
-            var user = userService.GetUser(userDataContent.userId);
+            var user = userService.GetUser(userDataContent.userID);
             return ResponsePack.Responsing(user);
         }
 

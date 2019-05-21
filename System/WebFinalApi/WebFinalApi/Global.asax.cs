@@ -2,6 +2,11 @@
 using Autofac;
 using Autofac.Integration.Mvc;
 using Autofac.Integration.WebApi;
+using Senparc;
+using Senparc.CO2NET;
+using Senparc.CO2NET.RegisterServices;
+using Senparc.Weixin;
+using Senparc.Weixin.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,8 +32,12 @@ namespace WebFinalApi
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             RegisterAll();
+            Fd();
         }
 
+        /// <summary>
+        /// 注入
+        /// </summary>
         public void RegisterAll()
         {
             //创建autofac管理注册类的容器实例
@@ -50,6 +59,35 @@ namespace WebFinalApi
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
             //注册解析
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+        }
+
+
+
+        public void Fd()
+        {
+            /* CO2NET 全局注册开始
+             * 建议按照以下顺序进行注册
+             */
+
+            //设置全局 Debug 状态
+            var isGLobalDebug = true;
+            var senparcSetting = SenparcSetting.BuildFromWebConfig(isGLobalDebug);
+
+            //CO2NET 全局注册，必须！！
+            IRegisterService register = RegisterService.Start(senparcSetting)
+                                          .UseSenparcGlobal(false, null);
+
+            /* 微信配置开始
+             * 建议按照以下顺序进行注册
+             */
+
+            //设置微信 Debug 状态
+            var isWeixinDebug = true;
+            var senparcWeixinSetting = SenparcWeixinSetting.BuildFromWebConfig(isWeixinDebug);
+
+            //微信全局注册，必须！！
+            register.UseSenparcWeixin(senparcWeixinSetting, senparcSetting);
+
         }
 
     }

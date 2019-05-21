@@ -37,6 +37,8 @@ namespace WebFinalApi.Models.Order
 
         public decimal allPrice { get; set; }
 
+        public int goodsCount { get; set; }
+
     }
 
 

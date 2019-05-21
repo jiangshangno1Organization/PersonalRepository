@@ -13,4 +13,14 @@ namespace WebFinalApi.Models.Order
 
         public int baseOrderID { get; set; }
     }
+
+    public class OrderSubmitInputDto
+    {
+        public List<int> IDs { get; set; }
+
+        public bool ifSumbitAll { get; set; }
+
+    }
+
+    
 }

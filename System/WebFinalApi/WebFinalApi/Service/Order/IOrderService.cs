@@ -29,6 +29,8 @@ namespace WebFinalApi.Service
         /// <returns></returns>
         bool ADDToCart(int userID, int gdsID, int count);
 
+        bool RemoveCart(int userID, int gdsID, bool ifRemoveAll = false);
+
         #endregion
 
         #region 订单相关

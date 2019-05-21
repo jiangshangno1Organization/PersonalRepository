@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using WebFinalApi.CustomException;
 using WebFinalApi.Empty;
+using WebFinalApi.Models.Goods;
 using WebFinalApi.Models.Order;
 using WebFinalApi.Service;
 
@@ -27,7 +28,24 @@ namespace WebFinalApi.Service
         {
             //通过userID 获取用户购物车信息
             var cartData = GetCartsDataByUserID(userID);
-            return new OrderCartDto() { orderCarts = cartData.ToList() };
+
+            //获取商品信息
+            var goodsData = GetGoodsDataByGoodsIDs(cartData.Select(i=>i.gdsID));
+
+            return new OrderCartDto()
+            {
+                orderCarts = cartData.Select(i => new CarCell()
+                {
+                    carID = i.ID,
+                    goodsCell = goodsData.Where(y => y.goodsID == i.gdsID).Select(y => new GoodsCell()
+                    {
+                        goodsID = i.gdsID,
+                        goodsName = y.goodsName
+                    }).First(),
+                    goodsCount = i.count,
+                    memo = i.memo
+                }).ToList()
+            };
         }
 
         /// <summary>
@@ -46,7 +64,8 @@ namespace WebFinalApi.Service
             {
                 throw new VerificationException("该商品不存在.");
             }
-            if (goodsData.stockLimit.Equals("1") && goodsData.stock < count)
+            //若限制库存 判断库存是否足够
+            if (!String.IsNullOrWhiteSpace(goodsData.stockLimit) && goodsData.stockLimit.Equals("1") && goodsData.stock < count)
             {
                 throw new VerificationException("库存不足够.");
             }
@@ -63,8 +82,8 @@ namespace WebFinalApi.Service
                 nameof(orderCart.userID),nameof(orderCart.gdsID),nameof(orderCart.count),nameof(orderCart.addTime)
             });
             string sql = $@"IF NOT EXISTS (SELECT 1 FROM order_cart WHERE userID = @userID AND gdsID = @gdsID)
-                INSERT INTO order_cart (userID,gdsID,count,addtime) VALUES(@userID,@gdsID,@count,@addTime)  
-                ELSE UPDATE order_cart set count = count + @count  WHERE userID = @userID and gdsid = @gdsID";
+                INSERT INTO order_cart (userID,gdsID,count,addtime) VALUES(@userID,@gdsID,@count,GETDATE())  
+                ELSE UPDATE order_cart set count = count + @count , addtime = GETDATE() WHERE userID = @userID and gdsid = @gdsID";
             return commonDB.Excute(sql, orderCart) == 1;
         }
 
@@ -93,7 +112,7 @@ namespace WebFinalApi.Service
                 //删除购物车所有
                 sqlCondition = DeleteSqlGenerate(cartSimple, new List<string>() { nameof(cartSimple.userID) , nameof(cartSimple.gdsID) });
             }
-            string sql = $"DELETE TABLE order_cart {sqlCondition}";
+            string sql = $"DELETE order_cart {sqlCondition}";
             if (commonDB.Excute(sql, cartSimple) > 0)
             {
                 return true;
@@ -171,12 +190,12 @@ namespace WebFinalApi.Service
         /// <param name="fileCartIDs"></param>
         private void VerificationGoodsABT(ref List<OrderCart> cartData, List<Goods> goodsIDs, ref List<int> fileCartIDs)
         {
-            for (int i = cartData.Count; i > 0; i--)
+            for (int i = cartData.Count-1; i >= 0; i--)
             {
                 int gdsId = cartData[i].gdsID;
                 int needCount = cartData[i].count;
                 Goods goods = goodsIDs.Where(c => c.goodsID == gdsId).First();
-                if (goods.stockLimit.Equals("1") && goods.stock < needCount)
+                if (!string.IsNullOrWhiteSpace(goods.stockLimit) && goods.stockLimit.Equals("1") && goods.stock < needCount)
                 {
                     //库存现在 并 不足
                     fileCartIDs.Add(cartData[i].ID);
@@ -204,6 +223,7 @@ namespace WebFinalApi.Service
                             {
                                 gdsID = goods.goodsID,
                                 gdsCD = goods.goodsCD,
+                                gdsName =goods.goodsName,
                                 baseID = orderID,
                                 count = cart.count,
                                 unitprice = goods.aPrice,
@@ -281,7 +301,8 @@ namespace WebFinalApi.Service
                         goodsCD = t.gdsCD,
                         goodsID = t.gdsID,
                         goodsName = t.gdsName,
-                        unitPrice = t.unitprice
+                        unitPrice = t.unitprice,
+                        goodsCount = t.count
                     }).ToList()
                 }).ToList();
             }
@@ -304,8 +325,13 @@ namespace WebFinalApi.Service
 
             if (baseData != null && detailData != null && detailData.Count() > 0)
             {
+              
+            }
+            else
+            {
                 throw new VerificationException("订单数据不存在.");
             }
+
             OrderDataDto order = new OrderDataDto()
             {
                 address = baseData.address1,
@@ -321,7 +347,8 @@ namespace WebFinalApi.Service
                     goodsCD = i.gdsCD,
                     goodsID = i.gdsID,
                     goodsName = i.gdsName,
-                    unitPrice = i.unitprice
+                    unitPrice = i.unitprice,
+                    goodsCount = i.count
                 }).ToList()
             };
             return order;

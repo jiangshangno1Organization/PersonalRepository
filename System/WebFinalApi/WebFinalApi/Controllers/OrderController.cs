@@ -29,9 +29,9 @@ namespace WebFinalApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [AuthorizationFilter]
-        public BaseResponseModel<OrderCartDto> GetUserCart(int userID)
+        public BaseResponseModel<OrderCartDto> GetUserCart()
         {
-            return ResponsePack.Responsing(orderService.GetUserCart(userID));
+            return ResponsePack.Responsing(orderService.GetUserCart(userDataContent.userID));
         }
 
         /// <summary>
@@ -43,7 +43,18 @@ namespace WebFinalApi.Controllers
         [AuthorizationFilter]
         public BaseResponseModel<bool> AddToCart(AddCartInput addCart)
         {
-            return ResponsePack.Responsing(orderService.ADDToCart(userDataContent.userId, addCart.goodsID, addCart.goodsCount));
+            return ResponsePack.Responsing(orderService.ADDToCart(userDataContent.userID, addCart.goodsID, addCart.goodsCount));
+        }
+
+        /// <summary>
+        /// 购物车删除
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete]
+        [AuthorizationFilter]
+        public BaseResponseModel<bool> RemoveCart(RemoveCartInput removeCartInput)
+        {
+            return ResponsePack.Responsing(orderService.RemoveCart(userDataContent.userID, removeCartInput.goodsID, removeCartInput.ifRemoveAll));
         }
 
         #endregion
@@ -59,13 +70,13 @@ namespace WebFinalApi.Controllers
         /// <returns></returns>
         [HttpPut]
         [AuthorizationFilter]
-        public BaseResponseModel<OrderSubmitDto> SubmitOrderByCart(List<int> IDs, bool ifSumbitAll = false)
+        public BaseResponseModel<OrderSubmitDto> SubmitOrderByCart(OrderSubmitInputDto orderSubmitInputDto)
         {
             OrderSubmitDto submitDto = new OrderSubmitDto();
             string errMsg = string.Empty;
             try
             {
-                submitDto = orderService.SubmitOrderByCart(userDataContent.userId, IDs, ifSumbitAll);
+                submitDto = orderService.SubmitOrderByCart(userDataContent.userID, orderSubmitInputDto.IDs, orderSubmitInputDto.ifSumbitAll);
             }
             catch (Exception ex)
             {
@@ -97,7 +108,7 @@ namespace WebFinalApi.Controllers
         [AuthorizationFilter]
         public BaseResponseModel<List<OrderDataDto>> GetGetOrderList(string type)
         {
-            return ResponsePack.Responsing(orderService.GetOrderList(userDataContent.userId, type));
+            return ResponsePack.Responsing(orderService.GetOrderList(userDataContent.userID, type));
         }
 
         /// <summary>

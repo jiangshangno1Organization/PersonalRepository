@@ -42,7 +42,7 @@ namespace WebFinalApi.Service
                 throw new VerificationException("验证码错误");
             }
             //获取分类下商品信息
-            var goods = GetGoodsByCategoryIDs(new List<string>() { categoryCD });
+            var goods = GetGoodsByCategoryIDs(new List<int>() { category.ID });
             //无商品 正常 return
             if (goods == null)
             {

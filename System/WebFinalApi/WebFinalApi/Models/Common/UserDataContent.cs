@@ -7,7 +7,7 @@ namespace WebFinalApi.Models.Common
 {
     public class UserDataContent
     {
-        public  int userId { get; set; }
+        public  int userID { get; set; }
 
         public string userName { get; set; }
 

@@ -13,5 +13,6 @@ namespace WebFinalApi.Empty
         public int count { get; set;}
         public DateTime addTime { get; set; }
         public string memo { get; set; }
+
     }
 }

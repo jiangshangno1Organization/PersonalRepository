@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
+using WebFinalApi.Helper;
 using WebFinalApi.Models.Common;
 
 namespace WebFinalApi.Controllers
@@ -16,16 +17,25 @@ namespace WebFinalApi.Controllers
         public UserDataContent userDataContent { get; set; }
         public override Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext controllerContext, CancellationToken cancellationToken)
         {
-            //从请求头中获取 Authorization
-            if (controllerContext.Request.Headers.Authorization!=null)
+            Task<HttpResponseMessage> res = null;
+            try
             {
-                string key = controllerContext.Request.Headers.Authorization.Scheme;
-                if (!string.IsNullOrWhiteSpace(key))
+                //从请求头中获取 Authorization
+                if (controllerContext.Request.Headers.Authorization != null)
                 {
-                    userDataContent = new UserDataContent() { userId = Helper.CodeVerificationHelper.ExplainUserID(key) };
+                    string key = controllerContext.Request.Headers.Authorization.Scheme;
+                    if (!string.IsNullOrWhiteSpace(key))
+                    {
+                        userDataContent = new UserDataContent() { userID = Helper.CodeVerificationHelper.ExplainUserID(key) };
+                    }
                 }
+                res = base.ExecuteAsync(controllerContext, cancellationToken);
             }
-            return base.ExecuteAsync(controllerContext, cancellationToken);
+            catch (Exception ex)
+            {
+                NetLog.WriteTextLog(" err: " +ex.Message);
+            }
+            return res;
         }
     }
 }

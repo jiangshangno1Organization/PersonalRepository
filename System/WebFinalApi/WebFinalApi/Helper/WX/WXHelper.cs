@@ -194,6 +194,7 @@ namespace WebFinalApi.Helper
         #endregion
 
         #region 【access_token】获取唯一接口调用凭据
+
         /// <summary>
         /// 获取唯一接口调用凭据access_token
         /// </summary>
@@ -205,6 +206,7 @@ namespace WebFinalApi.Helper
             string GetResult = ToolKit.GetData(Url + "grant_type=" + grant_type + "&appid=" + appid + "&secret=" + secret);
             return GetJson<wx_access_token>(GetResult);
         }
+
         #endregion
 
         #region【OpenId】 获取用户列表

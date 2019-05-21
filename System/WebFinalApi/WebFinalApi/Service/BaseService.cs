@@ -96,7 +96,7 @@ namespace WebFinalApi.Service
         /// <returns></returns>
         public IEnumerable<Goods> GetAllGoods()
         {
-            string sql = "SELECT * FROM goods_data FROM goods_data WHERE ifdel = '0'";
+            string sql = "SELECT * FROM goods_data WHERE ifdel = '0'";
             return commonDB.Query<Goods>(sql);
         }
 
@@ -105,7 +105,7 @@ namespace WebFinalApi.Service
         /// </summary>
         /// <param name="CategoryIDs"></param>
         /// <returns></returns>
-        public IEnumerable<Goods> GetGoodsByCategoryIDs(IEnumerable<string> CategoryIDs)
+        public IEnumerable<Goods> GetGoodsByCategoryIDs(IEnumerable<int> CategoryIDs)
         {
             string sql = "SELECT * FROM goods_data WHERE classid in @ids AND ifdel = '0'";
             return commonDB.Query<Goods>(sql, new { ids = CategoryIDs });
@@ -118,7 +118,7 @@ namespace WebFinalApi.Service
         /// <returns></returns>
         public IEnumerable<Goods> GetGoodsDataByGoodsIDs(IEnumerable<int> GoodsIDs)
         {
-            string sql = "SELECT * FROM goods_data FROM goods_data WHERE goodsid IN @goodsids AND ifdel = '0'";
+            string sql = "SELECT * FROM goods_data  WHERE goodsid IN @goodsids AND ifdel = '0'";
             return commonDB.Query<Goods>(sql, new { goodsids = GoodsIDs });
         }
 
@@ -129,8 +129,8 @@ namespace WebFinalApi.Service
         /// <returns></returns>
         public Goods GetGoodsDataBygoodsID(int ID)
         {
-            string sql = "SELECT * FROM goods_data FROM goods_data WHERE goodsid = @goodsid AND ifdel = '0'";
-            return commonDB.QueryFirstOrDefault<Goods>(sql, new { goodsids = ID });
+            string sql = "SELECT * FROM goods_data  WHERE goodsid = @goodsid AND ifdel = '0'";
+            return commonDB.QueryFirstOrDefault<Goods>(sql, new { goodsid = ID });
         }
 
         /// <summary>
@@ -251,10 +251,11 @@ namespace WebFinalApi.Service
                     nameof(item.count),
                     nameof(item.gdsCD),
                     nameof(item.gdsID),
-                    nameof(item.unitprice)
+                    nameof(item.unitprice),
+                    nameof(item.gdsName)
                 });
                 sql = $"INSERT INTO order_detail {sqlConditon}";
-                if (commonDB.Excute(sql, orderBase) != 1)
+                if (commonDB.Excute(sql, item) != 1)
                 {
                     throw new OperationException("订单基础生成失败");
                 }
@@ -314,7 +315,7 @@ namespace WebFinalApi.Service
         public Users GetUserDataByUserID(int userID)
         {
             string sql = $"SELECT * FROM users WHERE userid = @id AND ifdel = '0'";
-            return commonDB.QueryFirstOrDefault(sql, new { id = userID });
+            return commonDB.QueryFirstOrDefault<Users>(sql, new { id = userID });
         }
 
         #endregion
