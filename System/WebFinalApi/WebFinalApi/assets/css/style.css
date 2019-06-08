@@ -9177,7 +9177,8 @@ a.bundle-btn {
     color: #85bd02;
 }
 .fruit-price {
-    margin: 2px 0;
+    margin: 18px 0 0 14px;
+    display: inline-block;
 }
 .top-seller-title > span {
     color: #696969;

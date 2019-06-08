@@ -6,9 +6,3 @@ function Config() {
     };
 }
 
-function GetUrlPrefix()
-{
-    var url1 = 'http://shopapitest.wicp.vip/api/';
-    //var url1 ='http://localhost:8012/api/';
-    return url1;
-}

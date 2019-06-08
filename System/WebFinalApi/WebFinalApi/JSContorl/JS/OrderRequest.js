@@ -1,54 +1,65 @@
 
 //获取购物车
-function myfunction() {
-    var url = GetUrlPrefix();
+function GetUserCart() {
+    var res;
+    var url = GetApiUrlPrefix();
     var userKey = getCookie('userkey');
     $.ajax({
         url: url + 'Order/GetUserCart',
         type: "Get",
         headers: { 'Authorization': userKey },
         dataType: 'JSON',
-
-        //beforeSend: function (xhr)
-        //{
-        //    xhr.setRequestHeader("Authorization", "Basic " + btoa(userKey + ":"));
-        //},
+        async: false,
         success: function (data) {
             if (data.requestIfSuccess) {
-                alert(data);
+                res = data.data.orderCarts;
             }
             else {
+                res = null;
                 alert('请求失败.');
             }
             //window.location.href = furl+id;
         }
     });
+    return res;
 }
 
 //购物车添加
-function AddToCart(gdsid, count) {
-    var url = GetUrlPrefix();
+function AddToCart(o)
+{
+    var goodsid = $(o).parent().children('.goodsid').text();
+    return AddToCartBase(goodsid, 1);
+}
+
+//购物车添加
+function AddToCartBase(gdsid, count) {
+    var ifsuccess;
+    var url = GetApiUrlPrefix();
     var userKey = getCookie('userkey');
     $.ajax({
-        url: url + 'Order/GetUserCart',
+        url: url + 'Order/AddToCart',
         type: "Put",
         headers: { 'Authorization': userKey },
         data: { goodsID: gdsid, goodsCount: count },
         dataType: 'JSON',
+        async: false,
         success: function (data) {
             if (data.requestIfSuccess) {
-                alert(data);
+                ifsuccess = data.data;
             }
             else {
                 alert('请求失败.');
+                alert(data.errMeassage);
+                ifsuccess = false;
             }
         }
     });
+    return ifsuccess;
 }
 
 //删除购物车
 function RemoveCart(gdsid,ifall) {
-    var url = GetUrlPrefix();
+    var url = GetApiUrlPrefix();
     var userKey = getCookie('userkey');
     $.ajax({
         url: url + 'Order/RemoveCart',
@@ -68,8 +79,8 @@ function RemoveCart(gdsid,ifall) {
 }
 
 //用户订单列表
-function GetUserCenterData() {
-    var url = GetUrlPrefix();
+function GetUserOrderList() {
+    var url = GetApiUrlPrefix();
     var userKey = getCookie('userkey');
     $.ajax({
         url: url + 'Order/GetGetOrderList',
@@ -90,7 +101,7 @@ function GetUserCenterData() {
 
 //订单详情
 function GetOrderDetail(baseid) {
-    var url = GetUrlPrefix();
+    var url = GetApiUrlPrefix();
     var userKey = getCookie('userkey');
     $.ajax({
         url: url + 'Order/GetOrderDetail',
@@ -107,4 +118,41 @@ function GetOrderDetail(baseid) {
             }
         }
     });
+}
+
+///订单提交
+function SubmitOrder(orderids)
+{
+    var ifsuccess;
+    var url = GetApiUrlPrefix();
+    var userKey = getCookie('userkey');
+    $.ajax({
+        url: url + 'Order/AddToCart',
+        type: "Put",
+        headers: { 'Authorization': userKey },
+        data: { IDs: orderids, ifSumbitAll: false },
+        dataType: 'JSON',
+        async: false,
+        success: function (data) {
+            if (data.requestIfSuccess) {
+                ifsuccess = data.data.ifSuccess;
+
+                if (ifsuccess)
+                {
+                    alert("提交成功");
+                }
+                else
+                {
+                    alert(data.data.remindMsg);
+                }
+
+            }
+            else {
+                alert('请求失败.');
+                alert(data.errMeassage);
+                ifsuccess = false;
+            }
+        }
+    });
+    return ifsuccess;
 }

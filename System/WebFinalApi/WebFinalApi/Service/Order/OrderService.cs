@@ -30,18 +30,36 @@ namespace WebFinalApi.Service
             var cartData = GetCartsDataByUserID(userID);
 
             //获取商品信息
-            var goodsData = GetGoodsDataByGoodsIDs(cartData.Select(i=>i.gdsID));
+            var goodsData = GetGoodsDataByGoodsIDs(cartData.Select(i => i.gdsID));
+
+            //图片信息
+            var goodsPicture = GetGoodsPictures(cartData.Select(i => i.gdsID), false);
+            //
+            IEnumerable<GoodsCell> dd = from goodsDataCell in goodsData
+                                        join goodsPictureCell in goodsPicture on goodsDataCell.goodsID equals goodsPictureCell.goodsId
+                                        select new GoodsCell()
+                                        {
+                                            goodsID = goodsDataCell.goodsID,
+                                            goodsName = goodsDataCell.goodsName,
+                                            goodsCD = goodsDataCell.goodsCD,
+                                            price = goodsDataCell.price,
+                                            aPrice = goodsDataCell.aPrice,
+                                            goodsPictrures = new List<GoodsPictrure>()
+                                            {
+                                                new GoodsPictrure()
+                                                {
+                                                     file =   goodsPictureCell.file,
+                                                      key =   goodsPictureCell.file
+                                                }
+                                            }
+                                        };
 
             return new OrderCartDto()
             {
                 orderCarts = cartData.Select(i => new CarCell()
                 {
                     carID = i.ID,
-                    goodsCell = goodsData.Where(y => y.goodsID == i.gdsID).Select(y => new GoodsCell()
-                    {
-                        goodsID = i.gdsID,
-                        goodsName = y.goodsName
-                    }).First(),
+                    goodsCell = dd.Where(q => q.goodsID == i.gdsID).First(),
                     goodsCount = i.count,
                     memo = i.memo
                 }).ToList()
