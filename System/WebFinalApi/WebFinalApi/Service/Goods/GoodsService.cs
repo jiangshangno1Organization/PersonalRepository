@@ -29,6 +29,28 @@ namespace WebFinalApi.Service
         }
 
         /// <summary>
+        /// 获取商品详情
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        public GoodsDetailOutput GetGoodsDetail(int ID)
+        {
+            var res = GenerateGoods(new List<int>() { ID } ,true);
+            if (res.goodsCount == 1)
+            {
+                GoodsDetailOutput goodsDetailOutput = new GoodsDetailOutput()
+                {
+                    goodsCell = res.goods.First()
+                };
+                return goodsDetailOutput;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
         /// 获取商品 通过categoryCD
         /// </summary>
         /// <param name="categoryCD"></param>
@@ -50,5 +72,7 @@ namespace WebFinalApi.Service
             }
             return GenerateGoods(goods.Select(i => i.goodsID));
         }
+
+    
     }
 }

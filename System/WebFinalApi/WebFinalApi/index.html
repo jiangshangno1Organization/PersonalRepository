@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- all css here -->
+    <script src="JSContorl/JS/base-loading.js"></script>
+
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/animate.css">
@@ -18,17 +20,41 @@
     <link rel="stylesheet" href="assets/css/meanmenu.min.css">
     <link rel="stylesheet" href="assets/css/bundle.css">
     <link rel="stylesheet" href="assets/css/style.css">
+
     <link rel="stylesheet" type="text/css" href="assets/css/shoppingcart.css" />
+
+    <link rel="stylesheet" href="assets/css/user/iconfont.css" />
+
     <link href="assets/css/UserStyle.css" rel="stylesheet" />
+    <link href="assets/css/UserCenter.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="assets/css/responsive.css">
     <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
 
+    <style>
+        .main {
+            text-align: center; /*让div内部文字居中*/
+            /*background-color: #fff;*/
+            border-radius: 20px;
+            width: 300px;
+            height: 200px;
+            margin: auto;
+            position: absolute;
+            top: -100px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 900;
+            background: url(assets/img/quick-view/11.jpg) no-repeat center;
+        }
+    </style>
 </head>
 
 <body>
     <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
+
 
     <div id='indexbody' class="controled">
         <header>
@@ -144,14 +170,14 @@
         </header>
         <!-- header end -->
         <!--闪屏-->
-        <div class="slider-area" id="flashscreen">
+        <div class="slider-area" id="flashscreen" style="display:none">
             <div class="slider-active-2 owl-carousel">
                 <div class="single-slider-4 bg-img furits-slider" style="background-image: url(assets/img/slider/16.jpg)">
                     <div class="container">
                         <div class="fadeinup-animated furits-content text-center">
                             图片1<img class="animated" src="assets/img/slider/12.png" alt="">
                             <p class="animated">标语一 Health is not about the weight you lose. But about the life you gain!</p>
-                            <a class="furits-slider-btn btn-hover animated" href="#">Shop Now按钮一</a>
+                            <a class="furits-slider-btn btn-hover animated" onclick="EndShowFlashScreen()">Shop Now按钮一</a>
                             <img class="animated slide-img-position" src="assets/img/slider/11.png" alt="">
                         </div>
                     </div>
@@ -162,7 +188,7 @@
         </div>
         <!-- banner area start -->
         <!-- 商品模块 -->
-        <div class="banner-area" id="goodsmodular" style="display:none">
+        <div class="banner-area" id="goodsmodular">
             <div class="row no-gutters" id="goodslistbody">
 
                 <!--自模块-->
@@ -360,7 +386,7 @@
     </div>
 
     <!--商品模型cell-->
-    <div class="single-top-seller" style="display: none;" id="goodsmodel">
+    <div class="single-top-seller" style="display: none;" id="goodsmodel" onclick="ToGoodsDetail(this)">
         <!--图片左-->
         <div class="top-seller-img">
             <a href="#"><img class="pic" src="assets/img/product/furits/20.jpg" alt=""></a>
@@ -373,8 +399,9 @@
                 <span class="cprc">$25.22</span>
                 <span class="old oprc">$25.22</span>
             </div>
-            <a href="#" onclick="AddToCart($(this))">加入购物车 →</a>
+            <!--<a href="#" onclick="AddToCart($(this))">加入购物车 →</a>-->
         </div>
+        <img src="assets/css/images/cart.png" style="position:absolute ;color:blue; right: 35px ;width:35px;height:35px;" onclick="AddToCart($(this))" />
     </div>
 
     <!--购物车模型-->
@@ -405,126 +432,124 @@
     </div>
 
     <!--个人中心-->
-
     <section class="aui-flexView controled" id="usercenter" style="display:none">
+
+        <header class="aui-navBar aui-navBar-fixed"></header>
+
         <section class="aui-scrollView">
-            <div>
-                <div>
-                    <div class="aui-flex" style="margin-top:20%">
-                        <!-- 头像 -->
-                        <div class="aui-flex-user">
-                            <img src="assets/img/userAbt/user-003.png" alt="">
-                        </div>
-                        <div class="aui-flex-box">
-                            <h3>李嘉桦同学</h3>
-                            <div class="aui-flex-org">
-                                <i class="icon icon-vip"></i>普通会员
-                            </div>
-                        </div>
+            <div class="aui-panel">
+                <a href="javascript:void(0);" class="aui-panel-cell">
+                    <div class="aui-panel-cell-hd">
+                        <img src="images/Order/head.jpg" />
                     </div>
-
-                    <div class="aui-tour-layout aui-tour-layout-pad">
-                        <div class="aui-palace aui-palace-two">
-                            <a href="javascript:;" class="aui-palace-grid">
-                                <div class="aui-palace-grid-icon">
-                                    <img src="assets/img/userAbt/icon-head-001.png" alt="">
-                                </div>
-                                <div class="aui-palace-grid-text">
-                                    <h2>待支付</h2>
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="aui-palace-grid">
-                                <div class="aui-palace-grid-icon">
-                                    <img src="assets/img/userAbt/icon-head-002.png" alt="">
-                                </div>
-                                <div class="aui-palace-grid-text">
-                                    <h2>待出行</h2>
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="aui-palace-grid">
-                                <div class="aui-palace-grid-icon">
-                                    <img src="assets/img/userAbt/icon-head-003.png" alt="">
-                                </div>
-                                <div class="aui-palace-grid-text">
-                                    <h2>待点评</h2>
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="aui-palace-grid">
-                                <div class="aui-palace-grid-icon">
-                                    <img src="assets/img/userAbt/icon-head-004.png" alt="">
-                                </div>
-                                <div class="aui-palace-grid-text">
-                                    <h2>全部订单</h2>
-                                </div>
-                            </a>
-                        </div>
-
+                    <div class="aui-panel-cell-bd">
+                        <h4 id="username">用户</h4>
+                        <p id="mobile">51910101</p>
                     </div>
-
-                    <div class="aui-palace aui-palace-two">
-                        <a href="javascript:;" class="aui-palace-grid">
-                            <div class="aui-palace-grid-icon">
-                                <img src="assets/img/userAbt/icon-head-005.png" alt="">
-                            </div>
-                            <div class="aui-palace-grid-text">
-                                <h2>同灵宝</h2>
-                            </div>
-                        </a>
-
-                        <a href="javascript:;" class="aui-palace-grid">
-                            <div class="aui-palace-grid-icon">
-                                <img src="assets/img/userAbt/icon-head-008.png" alt="">
-                            </div>
-                            <div class="aui-palace-grid-text">
-                                <h2>全部钱包</h2>
-                            </div>
-                        </a>
+                    <div class="aui-panel-cell-fr">
+                        已实名认证
                     </div>
+                </a>
+            </div>
 
-                    <div class="aui-tour-layout">
-                        <div class="aui-tour-news">
-                            <a href="javascript:;" class="aui-flex b-line">
-                                <div class="aui-flex-box-head">常用信息</div>
-                                <div class="aui-flex-box aui-flex-box-right">
-                                    旅客
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="aui-flex b-line">
-                                <div class="aui-flex-box-head">我的点评</div>
-                                <div class="aui-flex-box aui-flex-box-right">
-                                    图片、文字
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="aui-flex b-line">
-                                <div class="aui-flex-box-head">我的收藏</div>
-                                <div class="aui-flex-box aui-flex-box-right">
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="aui-flex b-line">
-                                <div class="aui-flex-box-head">帮助中心</div>
-                                <div class="aui-flex-box aui-flex-box-right">
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="aui-flex b-line">
-                                <div class="aui-flex-box-head">意见反馈</div>
-                                <div class="aui-flex-box aui-flex-box-right">
-                                </div>
-                            </a>
-                            <a href="javascript:;" class="aui-flex b-line">
-                                <div class="aui-flex-box-head">意见反馈</div>
-                                <div class="aui-flex-box aui-flex-box-right">
-                                </div>
-                            </a>
+            <div class="divHeight"></div>
 
+            <div class="aui-tour-layout aui-tour-layout-pad">
+                <div class="aui-palace aui-palace-two">
+                    <a href="javascript:;" class="aui-palace-grid" onclick="ToOrderIndex()">
+                        <div class="aui-palace-grid-icon">
+                            <img src="assets/img/userAbt/icon-head-001.png" alt="">
                         </div>
-                        <div class="aui-button">
-                            <button class="aui-btn-out" onclick="UserQuit()">退出</button>
+                        <div class="aui-palace-grid-text">
+                            <h2>待支付</h2>
                         </div>
-                    </div>
+                    </a>
+                    <a href="javascript:;" class="aui-palace-grid" onclick="ToOrderIndex()">
+                        <div class="aui-palace-grid-icon">
+                            <img src="assets/img/userAbt/icon-head-002.png" alt="">
+                        </div>
+                        <div class="aui-palace-grid-text">
+                            <h2>待出行</h2>
+                        </div>
+                    </a>
+                    <a href="javascript:;" class="aui-palace-grid" onclick="ToOrderIndex()">
+                        <div class="aui-palace-grid-icon">
+                            <img src="assets/img/userAbt/icon-head-003.png" alt="">
+                        </div>
+                        <div class="aui-palace-grid-text">
+                            <h2>待点评</h2>
+                        </div>
+                    </a>
+                    <a href="javascript:;" class="aui-palace-grid" onclick="ToOrderIndex()">
+                        <div class="aui-palace-grid-icon">
+                            <img src="assets/img/userAbt/icon-head-004.png" alt="">
+                        </div>
+                        <div class="aui-palace-grid-text">
+                            <h2>全部订单</h2>
+                        </div>
+                    </a>
                 </div>
             </div>
 
+
+            <!--<div class="divHeight"></div>-->
+            <div class="aui-card-list">
+
+
+                <!--<a href="javascript:void(0);" class="aui-panel-cell aui-clear-border">
+                    <div class="aui-panel-cell-bd">
+                        <h4>会员积分</h4>
+                    </div>
+                    <div class="aui-panel-cell-fr">
+                        2389分
+                    </div>
+                </a>-->
+                <!--<div class="divHeight"></div>-->
+
+                <a href="javascript:void(0);" class="aui-panel-cell" onclick="ToUserAddress()">
+                    <div class="aui-panel-cell-bd">
+                        <h4>收货地址</h4>
+                    </div>
+                    <div class="aui-panel-cell-fr"></div>
+                </a>
+                <a href="javascript:void(0);" class="aui-panel-cell">
+                    <div class="aui-panel-cell-bd">
+                        <h4>个人信息</h4>
+                    </div>
+                    <div class="aui-panel-cell-fr"></div>
+                </a>
+                <a href="javascript:void(0);" class="aui-panel-cell aui-clear-border">
+                    <div class="aui-panel-cell-bd">
+                        <h4>优惠券</h4>
+                    </div>
+                    <div class="aui-panel-cell-fr"></div>
+                </a>
+                <div class="divHeight"></div>
+                <a href="javascript:void(0);" class="aui-panel-cell">
+                    <div class="aui-panel-cell-bd">
+                        <h4>银行卡管理</h4>
+                    </div>
+                    <div class="aui-panel-cell-fr"></div>
+                </a>
+                <a href="javascript:void(0);" class="aui-panel-cell aui-clear-border">
+                    <div class="aui-panel-cell-bd">
+                        <h4>理财设置</h4>
+                    </div>
+                    <div class="aui-panel-cell-fr"></div>
+                </a>
+                <div class="divHeight"></div>
+                <a href="javascript:void(0);" class="aui-panel-cell aui-clear-border">
+                    <div class="aui-panel-cell-bd">
+                        <h4>更多设置</h4>
+                    </div>
+                    <div class="aui-panel-cell-fr"></div>
+                </a>
+            </div>
+            <div class="aui-button">
+                <button class="aui-btn-out" onclick="UserQuit()">退出</button>
+            </div>
         </section>
+
     </section>
 
     <!--<section class="aui-flexView">
@@ -606,7 +631,6 @@
             </div>
         </section>
     </section>-->
-
     <!--购物车-->
     <div class="controled" id='usercart' style="display:none">
         <div class="body">
@@ -636,7 +660,7 @@
                         </div>
 
                         <!--商品信息右-->
-                        <div class="product-del"><img src="assets/img/cart/deleteico.png" /></div>
+                        <div class="product-del" onclick=""><img src="assets/img/cart/deleteico.png" /></div>
                     </div>
                 </div>
 
@@ -696,6 +720,7 @@
                         <div class="product-del"><img src="assets/img/cart/deleteico.png" /></div>
                     </div>
                 </div>
+
             </div>
             <!--//全选-->
             <div class="product-js">
@@ -724,27 +749,31 @@
         </div>
 
 
+
     </div>
 
     <!--底部导航-->
-    <footer class="aui-footer" id="bottomhead" style="display:none">
-        <a href="javascript:;" class="aui-tabBar-item " onclick="ToIndex()">
+    <footer class="aui-footer" id="bottomhead">
+        <a href="javascript:;" class="aui-tabBar-item" id="index" onclick="ToIndex(this)">
             <span class="aui-tabBar-item-icon">
-                <i class="icon icon-home"></i>
+                <span class="icon iconfont chose"></span>
+                <!--<i class="icon icon-home"></i>-->
             </span>
-            <span class="aui-tabBar-item-text">首页</span>
+            <span class="aui-tabBar-item-text chose">首页</span>
         </a>
 
-        <a href="javascript:;" class="aui-tabBar-item " onclick="ToUserCart()">
+        <a href="javascript:;" class="aui-tabBar-item " id="userCart" onclick="ToUserCart(this)">
             <span class="aui-tabBar-item-icon">
-                <i class="icon icon-loan"></i>
+                <!--<i class="icon icon-loan"></i>-->
+                <span class="icon iconfont"></span>
             </span>
             <span class="aui-tabBar-item-text">购物车</span>
         </a>
 
-        <a href="javascript:;" class="aui-tabBar-item aui-tabBar-item-active" onclick="ToUserCenter()">
+        <a href="javascript:;" class="aui-tabBar-item" id="userCenter" onclick="ToUserCenter(this)">
             <span class="aui-tabBar-item-icon">
-                <i class="icon icon-me"></i>
+                <!--<i class="icon icon-me"></i>-->
+                <span class="icon iconfont"></span>
             </span>
             <span class="aui-tabBar-item-text">个人中心</span>
         </a>
@@ -766,11 +795,22 @@
 
     <script src="JSContorl/JS/ConfigForRequest.js"></script>
     <script charset="gb2312" src="JSContorl/JS/OrderRequest.js"></script>
+    <script src="JSContorl/Comman/Comman.js"></script>
+    <script src="JSContorl/Cache/cache.js?v=1"></script>
+    <script charset="gb2312" src="JSContorl/JS/Controller.js"></script>
+
+
     <script src="JSContorl/JS/UserRequest.js?v=1"></script>
     <script charset="gb2312" src="JSContorl/JS/GoodsRequest.js?v=1"></script>
-    <script src="JSContorl/Cache/cache.js?v=1"></script>
-    <script src="JSContorl/Comman/Comman.js"></script>
-    <script charset="gb2312" src="JSContorl/JS/Controller.js"></script>
     <script src="JSContorl/JS/shoppingcart.js" type="text/javascript" charset="utf-8"></script>
+
 </body>
+
+<script type="text/javascript">
+     window.addEventListener('onscroll', function () {
+        var scrollTop=document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+         console.log(scrollTop);
+         alert(scrollTop);
+        })
+</script>
 </html>

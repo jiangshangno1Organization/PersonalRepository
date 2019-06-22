@@ -84,6 +84,58 @@ namespace WebFinalApi.Controllers
             return ResponsePack.Responsing(user);
         }
 
+        /// <summary>
+        /// 获取用户收货地址
+        /// </summary>
+        /// <param name="userAddress"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [AuthorizationFilter]
+        public BaseResponseModel<AddressOutput> GetUserAddress()
+        {
+            var result = userService.GetAddress(userDataContent.userID);
+            return ResponsePack.Responsing(result);
+        }
+
+        /// <summary>
+        /// 新增用户收货地址
+        /// </summary>
+        /// <param name="userAddress"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [AuthorizationFilter]
+        public BaseResponseModel<bool> AddUserAddress(UserAddress userAddress)
+        {
+            var result = userService.UserAddAddress(userAddress ,userDataContent.userID);
+            return ResponsePack.Responsing(result);
+        }
+
+        /// <summary>
+        /// 修改收货地址
+        /// </summary>
+        /// <param name="userAddress"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AuthorizationFilter]
+        public BaseResponseModel<bool> ChangeUserAddress(UserAddress userAddress)
+        {
+            var result = userService.UserUpdateAddress(userAddress, userDataContent.userID);
+            return ResponsePack.Responsing(result);
+        }
+
+        /// <summary>
+        /// 删除收货地址
+        /// </summary>
+        /// <param name="userAddress"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [AuthorizationFilter]
+        public BaseResponseModel<bool> DeleteUserAddress(int addressID)
+        {
+            var result = userService.UserDeleteAddress(addressID, userDataContent.userID);
+            return ResponsePack.Responsing(result);
+        }
+
         #endregion
 
     }

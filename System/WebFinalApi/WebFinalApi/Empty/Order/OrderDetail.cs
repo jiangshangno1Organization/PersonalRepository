@@ -25,5 +25,6 @@ namespace WebFinalApi.Empty
         /// </summary>
         public decimal allprice { get; set; }
 
+        public string goodspic { get; set; }
     }
 }

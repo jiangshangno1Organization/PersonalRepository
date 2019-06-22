@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebFinalApi.Empty;
 
 namespace WebFinalApi.Models.User
 {
@@ -41,4 +42,15 @@ namespace WebFinalApi.Models.User
 
     }
 
+
+    public class AddressInput
+    {
+
+    }
+
+
+    public class AddressOutput
+    {
+        public List<UserAddress> userAddresses { get; set; }
+    }
 }

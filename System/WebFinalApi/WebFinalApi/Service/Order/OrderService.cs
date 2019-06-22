@@ -33,7 +33,7 @@ namespace WebFinalApi.Service
             var goodsData = GetGoodsDataByGoodsIDs(cartData.Select(i => i.gdsID));
 
             //图片信息
-            var goodsPicture = GetGoodsPictures(cartData.Select(i => i.gdsID), false);
+            var goodsPicture = GetGoodsPictures(cartData.Select(i => i.gdsID), true);
             //
             IEnumerable<GoodsCell> dd = from goodsDataCell in goodsData
                                         join goodsPictureCell in goodsPicture on goodsDataCell.goodsID equals goodsPictureCell.goodsId
@@ -95,10 +95,7 @@ namespace WebFinalApi.Service
                 gdsID = gdsID,
                 userID = userID
             };
-            string sqlCondition = InsertSqlGenerate<OrderCart>(orderCart, new List<string>()
-            {
-                nameof(orderCart.userID),nameof(orderCart.gdsID),nameof(orderCart.count),nameof(orderCart.addTime)
-            });
+       
             string sql = $@"IF NOT EXISTS (SELECT 1 FROM order_cart WHERE userID = @userID AND gdsID = @gdsID)
                 INSERT INTO order_cart (userID,gdsID,count,addtime) VALUES(@userID,@gdsID,@count,GETDATE())  
                 ELSE UPDATE order_cart set count = count + @count , addtime = GETDATE() WHERE userID = @userID and gdsid = @gdsID";
@@ -116,19 +113,19 @@ namespace WebFinalApi.Service
         {
             OrderCart cartSimple = new OrderCart()
             {
-                 userID = userID
+                userID = userID
             };
             string sqlCondition = string.Empty;
             if (ifRemoveAll)
             {
                 //删除购物车所有
-                sqlCondition =  DeleteSqlGenerate(cartSimple, new List<string>() {nameof(cartSimple.userID) });
+                sqlCondition = DeleteSqlGenerate(cartSimple, new List<string>() { nameof(cartSimple.userID) });
             }
             else
             {
                 cartSimple.gdsID = gdsID;
                 //删除购物车所有
-                sqlCondition = DeleteSqlGenerate(cartSimple, new List<string>() { nameof(cartSimple.userID) , nameof(cartSimple.gdsID) });
+                sqlCondition = DeleteSqlGenerate(cartSimple, new List<string>() { nameof(cartSimple.userID), nameof(cartSimple.gdsID) });
             }
             string sql = $"DELETE order_cart {sqlCondition}";
             if (commonDB.Excute(sql, cartSimple) > 0)
@@ -208,7 +205,7 @@ namespace WebFinalApi.Service
         /// <param name="fileCartIDs"></param>
         private void VerificationGoodsABT(ref List<OrderCart> cartData, List<Goods> goodsIDs, ref List<int> fileCartIDs)
         {
-            for (int i = cartData.Count-1; i >= 0; i--)
+            for (int i = cartData.Count - 1; i >= 0; i--)
             {
                 int gdsId = cartData[i].gdsID;
                 int needCount = cartData[i].count;
@@ -229,25 +226,31 @@ namespace WebFinalApi.Service
         /// <param name="goodsDatas"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        private int GenerateOrderForCarts(List<OrderCart> carts ,List<Goods> goodsDatas,Users user)
+        private int GenerateOrderForCarts(List<OrderCart> carts, List<Goods> goodsDatas, Users user)
         {
             //生成订单ID
             int orderID = GetCode("orderid");
 
+            //图片
+            var goodsPic = GetGoodsPictures(goodsDatas.Select(i => i.goodsID), true);
+
             //生成订单详情
             var priceDatas = from goods in goodsDatas
-                            join cart in carts on goods.goodsID equals cart.gdsID
-                            select new OrderDetail
-                            {
-                                gdsID = goods.goodsID,
-                                gdsCD = goods.goodsCD,
-                                gdsName =goods.goodsName,
-                                baseID = orderID,
-                                count = cart.count,
-                                unitprice = goods.aPrice,
-                                allprice = cart.count * goods.aPrice
-                            };
-         
+                             join cart in carts on goods.goodsID equals cart.gdsID
+                             join goodsPicCell in goodsPic on goods.goodsID equals goodsPicCell.goodsId into q
+                             from pic in q.DefaultIfEmpty()
+                             select new OrderDetail
+                             {
+                                 gdsID = goods.goodsID,
+                                 gdsCD = goods.goodsCD,
+                                 gdsName = goods.goodsName,
+                                 baseID = orderID,
+                                 count = cart.count,
+                                 unitprice = goods.aPrice,
+                                 allprice = cart.count * goods.aPrice,
+                                 goodspic = pic == null ? "" : pic.file
+                             };
+
             //生成订单基础
             OrderBase orderBase = new OrderBase()
             {
@@ -259,7 +262,8 @@ namespace WebFinalApi.Service
                 status = "LR",
                 userName = user.userName,
                 sum = priceDatas.Sum(c => c.allprice),
-                baseID = orderID
+                baseID = orderID,
+                goodsnumber = priceDatas.Sum(c => c.count)
             };
             //执行生存
             GenerateOrder(orderBase, priceDatas);
@@ -271,19 +275,42 @@ namespace WebFinalApi.Service
 
         #region 订单数据获取
 
+        private string GetOrderStatusText(string bcd)
+        {
+            string status = string.Empty;
+            switch (bcd)
+            {
+                case "LR":
+                    status = "未支付";
+                    break;
+                case "SX":
+                    status = "待收货";
+                    break;
+                case "FH":
+                    status = "已完成";
+                    break;
+                case "QX":
+                    status = "已取消";
+                    break;
+                default:
+                    break;
+            }
+            return status;
+        }
+
         /// <summary>
-        /// 获取订单列表
+        /// 获取订单列表（0：未付款 1：未收货 2：已完成 3:已取消）
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public List<OrderDataDto> GetOrderList(int userID ,string type)
+        public List<OrderDataDto> GetOrderList(int userID, string type)
         {
             string status = string.Empty;
             switch (type)
             {
                 case "0":
-                    status = "LR";
+                    status = "QD";
                     break;
                 case "1":
                     status = "SX";
@@ -291,27 +318,37 @@ namespace WebFinalApi.Service
                 case "2":
                     status = "FH";
                     break;
+                case "3":
+                    status = "QX";
+                    break;
                 default:
                     break;
             }
-            string sql = $"SELECT * FROM order_base WHERE userid = @id AND ifdel = '0' AND status = @status ";
+            string statusCondition = string.Empty;
+            if (!string.IsNullOrWhiteSpace(status))
+            {
+                statusCondition = " AND status = @status ";
+            }
+            string sql = $"SELECT * FROM order_base WHERE userid = @id AND ifdel = '0' {statusCondition} ORDER BY ID DESC";
             var orderBase = commonDB.Query<OrderBase>(sql, new { id = userID, status = status });
 
             if (orderBase != null && orderBase.Count() > 0)
             {
                 //orderDetail
                 sql = $"SELECT * FROM order_detail WHERE baseid in @baseids ";
-                var orderDetail = GetOrderDetailsByBaseIDs(orderBase.Select(i=>i.baseID));
-
+                var orderDetail = GetOrderDetailsByBaseIDs(orderBase.Select(i => i.baseID));
                 //组装
                 return orderBase.Select(i => new OrderDataDto()
                 {
+                    orderDate = i.inittime.ToString("yyyy-MM-dd"),
+                    orderStatus = GetOrderStatusText(i.status),
                     address = i.address1,
                     baseID = i.baseID,
                     factSum = i.factNum,
                     mobile = i.mobile,
                     sum = i.sum,
                     userName = i.userName,
+                    goodsNumber = i.goodsnumber,
                     orderDetails = orderDetail.Where(t => t.baseID.Equals(i.baseID)).Select(t => new OrderDetailDto()
                     {
                         baseID = t.baseID,
@@ -320,7 +357,10 @@ namespace WebFinalApi.Service
                         goodsID = t.gdsID,
                         goodsName = t.gdsName,
                         unitPrice = t.unitprice,
-                        goodsCount = t.count
+                        goodsCount = t.count,
+                        goodsPic = t.goodspic
+                        //picture = t.pic
+
                     }).ToList()
                 }).ToList();
             }
@@ -343,17 +383,19 @@ namespace WebFinalApi.Service
 
             if (baseData != null && detailData != null && detailData.Count() > 0)
             {
-              
+
             }
             else
             {
                 throw new VerificationException("订单数据不存在.");
             }
 
+
             OrderDataDto order = new OrderDataDto()
             {
                 address = baseData.address1,
                 baseID = baseData.baseID,
+                orderStatus = GetOrderStatusText(baseData.status),
                 factSum = baseData.factNum,
                 mobile = baseData.mobile,
                 sum = baseData.sum,
@@ -366,7 +408,8 @@ namespace WebFinalApi.Service
                     goodsID = i.gdsID,
                     goodsName = i.gdsName,
                     unitPrice = i.unitprice,
-                    goodsCount = i.count
+                    goodsCount = i.count,
+                    goodsPic = i.goodspic
                 }).ToList()
             };
             return order;
@@ -377,6 +420,18 @@ namespace WebFinalApi.Service
         public int PayOrder(int orderID)
         {
             throw new NotImplementedException();
+        }
+
+
+        public bool EffectiveOrder(int orderID)
+        {
+            //状态更新 QD => SX
+
+
+            //库存扣减
+
+
+            return true;
         }
 
     }

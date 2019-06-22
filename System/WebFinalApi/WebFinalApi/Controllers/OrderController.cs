@@ -95,6 +95,16 @@ namespace WebFinalApi.Controllers
 
         }
 
+        /// <summary>
+        /// 支付成后 生效订单
+        /// </summary>
+        public void OrderSure(int orderID)
+        {
+
+
+        }
+
+
         #endregion
 
         #region 订单数据获取

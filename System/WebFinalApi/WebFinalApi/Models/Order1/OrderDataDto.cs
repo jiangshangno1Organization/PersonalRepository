@@ -7,6 +7,8 @@ namespace WebFinalApi.Models.Order
 {
     public class OrderDataDto
     {
+        public string orderDate { get; set; }
+        public string orderStatus { get; set; }
         public int baseID { get; set; }
 
         public string address { get; set; }
@@ -20,6 +22,8 @@ namespace WebFinalApi.Models.Order
         public decimal factSum { get; set; }
         
         public List<OrderDetailDto> orderDetails { get; set; }
+
+        public int goodsNumber { get; set; }
     }
 
 
@@ -39,6 +43,8 @@ namespace WebFinalApi.Models.Order
 
         public int goodsCount { get; set; }
 
+
+        public string goodsPic { get; set; }
     }
 
 

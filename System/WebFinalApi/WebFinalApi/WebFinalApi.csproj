@@ -231,7 +231,8 @@
     <Compile Include="Empty\Order\OrderCart.cs" />
     <Compile Include="Empty\Order\OrderDetail.cs" />
     <Compile Include="Empty\SystemSet.cs" />
-    <Compile Include="Empty\Users.cs" />
+    <Compile Include="Empty\User\UserAddress.cs" />
+    <Compile Include="Empty\User\Users.cs" />
     <Compile Include="Filter\AuthorizationFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -261,19 +262,29 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="assets\css\AddressAdd.css" />
+    <Content Include="assets\css\AddressListStyle.css" />
     <Content Include="assets\css\animate.css" />
     <Content Include="assets\css\bootstrap.min.css" />
     <Content Include="assets\css\bundle.css" />
+    <Content Include="assets\css\icofont11.css" />
     <Content Include="assets\css\icofont.css" />
+    <Content Include="assets\css\iconfont.js" />
+    <Content Include="assets\css\images\caradd.png" />
+    <Content Include="assets\css\images\cart.png" />
     <Content Include="assets\css\jquery-ui.css" />
     <Content Include="assets\css\magnific-popup.css" />
     <Content Include="assets\css\meanmenu.min.css" />
+    <Content Include="assets\css\OrderCommitStyle.css" />
+    <Content Include="assets\css\OrderStyle.css" />
     <Content Include="assets\css\owl.carousel.min.css" />
     <Content Include="assets\css\pe-icon-7-stroke.css" />
     <Content Include="assets\css\responsive.css" />
     <Content Include="assets\css\shoppingcart.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\themify-icons.css" />
+    <Content Include="assets\css\UserCenter.css" />
+    <Content Include="assets\css\user\iconfont.css" />
     <Content Include="assets\img\banner\12.png" />
     <Content Include="assets\img\banner\13.png" />
     <Content Include="assets\img\banner\18.jpg" />
@@ -359,6 +370,7 @@
     <Content Include="assets\img\product\sidebar-product\2.jpg" />
     <Content Include="assets\img\product\sidebar-product\3.jpg" />
     <Content Include="assets\img\product\sidebar-product\4.jpg" />
+    <Content Include="assets\img\quick-view\11.jpg" />
     <Content Include="assets\img\quick-view\l1.jpg" />
     <Content Include="assets\img\quick-view\l2.jpg" />
     <Content Include="assets\img\quick-view\l3.jpg" />
@@ -381,6 +393,8 @@
     <Content Include="assets\img\userAbt\icon-head-008.png" />
     <Content Include="assets\img\userAbt\user-003.png" />
     <Content Include="assets\img\userAbt\user-004.png" />
+    <Content Include="assets\js\AddressAdd\address.js" />
+    <Content Include="assets\js\AddressAdd\city.js" />
     <Content Include="assets\js\ajax-mail.js" />
     <Content Include="assets\js\bootstrap.min.js" />
     <Content Include="assets\js\imagesloaded.pkgd.min.js" />
@@ -394,6 +408,7 @@
     <Content Include="assets\js\owl.carousel.min.js" />
     <Content Include="assets\js\plugins.js" />
     <Content Include="assets\js\popper.js" />
+    <Content Include="assets\js\tab.js" />
     <Content Include="assets\js\vendor\jquery-1.12.0.min.js" />
     <Content Include="assets\js\vendor\modernizr-2.6.2.min.js" />
     <Content Include="assets\js\vendor\modernizr-2.8.3.min.js" />
@@ -413,6 +428,19 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="GoodsDetail.html" />
+    <Content Include="images\Goods\goods1.jpg" />
+    <Content Include="images\Order\head.jpg" />
+    <Content Include="images\Order\icon-head-001.png" />
+    <Content Include="images\Order\icon-head-002.png" />
+    <Content Include="images\Order\icon-head-003.png" />
+    <Content Include="images\Order\icon-head-004.png" />
+    <Content Include="images\Order\icon-logo.png" />
+    <Content Include="images\Order\pd-001.png" />
+    <Content Include="images\Order\pd-002.png" />
+    <Content Include="images\Order\pd-003.png" />
+    <Content Include="images\Order\pd-004.png" />
+    <Content Include="images\Order\pd-005.png" />
     <Content Include="index.html" />
     <Content Include="JSContorl\Cache\cache.js" />
     <Content Include="assets\css\UserStyle.css" />
@@ -420,6 +448,8 @@
     <Content Include="JSContorl\JS\Controller.js" />
     <Content Include="JSContorl\JS\GoodsRequest.js" />
     <Content Include="JSContorl\Comman\Comman.js" />
+    <Content Include="JSContorl\JS\base-loading.js" />
+    <Content Include="JSContorl\JS\OrderCommit.js" />
     <Content Include="JSContorl\JS\OrderRequest.js" />
     <Content Include="JSContorl\JS\shoppingcart.js" />
     <Content Include="JSContorl\JS\UserRequest.js" />
@@ -428,6 +458,8 @@
     <Content Include="Log\2019-05-11.System.txt" />
     <Content Include="Log\2019-05-15.System.txt" />
     <Content Include="Log\2019-05-21.System.txt" />
+    <Content Include="OrderCommit.html" />
+    <Content Include="OrderData.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -469,7 +501,8 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="dd.html" />
-    <Content Include="UserCenter.html" />
+    <Content Include="UserAddress.html" />
+    <Content Include="UserAdressAdd.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -482,7 +515,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="assets\css\images\" />
     <Folder Include="assets\img\NewFolder1\" />
     <Folder Include="Helper\WX\" />
     <Folder Include="images\bg\" />

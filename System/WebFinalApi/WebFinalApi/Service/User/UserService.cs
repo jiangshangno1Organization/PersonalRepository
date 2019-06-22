@@ -40,6 +40,41 @@ namespace WebFinalApi.Service
             };
         }
 
+        /// <summary>
+        /// 获取用户收货地址
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
+        public AddressOutput GetAddress(int UserID)
+        {
+            AddressOutput addressOutput = new AddressOutput();
+            var userAddress = GetUserAddress(UserID);
+            if (userAddress != null)
+            {
+                addressOutput.userAddresses = userAddress.ToList();
+            }
+            return addressOutput;
+        }
+
+
+        public bool UserAddAddress(UserAddress userAddress, int UserID)
+        {
+            userAddress.userID = UserID;
+           return AddAddress(userAddress ,UserID);
+        }
+
+        public bool UserUpdateAddress(UserAddress userAddress, int UserID)
+        {
+            userAddress.userID = UserID;
+            return ChangeAddress(userAddress , UserID);
+        }
+
+        public bool UserDeleteAddress( int addressID, int UserID)
+        {
+            return DeleteAddress(addressID, UserID);
+        }
+
+
         #region 帐号注册
 
         /// <summary>
@@ -156,6 +191,6 @@ namespace WebFinalApi.Service
             throw new NotImplementedException();
         }
 
-      
+
     }
 }

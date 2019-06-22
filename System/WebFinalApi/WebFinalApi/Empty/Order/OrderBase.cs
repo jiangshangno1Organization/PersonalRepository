@@ -34,5 +34,7 @@ namespace WebFinalApi.Empty
 
         public int baseID { get; set; }
 
+        public int goodsnumber { get; set; }
+
     }
 }

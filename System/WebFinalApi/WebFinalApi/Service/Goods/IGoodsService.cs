@@ -17,6 +17,13 @@ namespace WebFinalApi.Service
         /// <returns></returns>
         GoodsDataOutput GetAllGoods();
 
+        /// <summary>
+        /// 获取商品详情
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        GoodsDetailOutput GetGoodsDetail(int ID);
+
 
         GoodsDataOutput GetGoodsByCategoryCD(string categoryCD);
        

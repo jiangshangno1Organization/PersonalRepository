@@ -47,8 +47,8 @@ namespace WebFinalApi.Models.Order
     /// </summary>
     public class RemoveCartInput
     {
+        public int cartID { get; set; }
         public int goodsID { get; set; }
-
         public bool ifRemoveAll { get; set; }
     }
          

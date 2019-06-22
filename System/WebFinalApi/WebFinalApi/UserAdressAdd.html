@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加地址</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link href="assets/css/AddressAdd.css" rel="stylesheet" type="text/css" />
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+    <section class="aui-flexView">
+        <header class="aui-navBar aui-navBar-fixed">
+            <a href="#" class="aui-navBar-item" onclick="self.location=document.referrer;">
+                <i class="icon icon-return"></i>
+            </a>
+            <div class="aui-center">
+                <span class="aui-center-title">添加地址</span>
+            </div>
+            <a href="javascript:;" class="aui-navBar-item" onclick="Save()">
+                <i class="icon icon-sys"></i>
+                保存
+            </a>
+        </header>
+        <section class="aui-scrollView">
+            <div class="aui-address-box">
+
+                <div class="aui-address-cell-item">
+                    <div class="aui-cell-name">收货人</div>
+                    <div class="aui-cell-input">
+                        <input type="text" class="cell-input" id="name" placeholder="请输入您的姓名" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="aui-address-cell-item">
+                    <div class="aui-cell-name">联系电话</div>
+                    <div class="aui-cell-input">
+                        <input type="text" class="cell-input" id="mobile" placeholder="请输入您的手机号码" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="aui-address-cell-item">
+                    <div class="aui-cell-name">所在地区</div>
+                    <div class="aui-cell-input cell-input-text">
+                        <input type="text" class="cell-input" readonly id="J_Address" placeholder="请选择收货地址">
+                    </div>
+                </div>
+                <div class="aui-address-cell-item">
+                    <div class="aui-cell-name">详细地址</div>
+                    <div class="aui-cell-input">
+                        <input type="text" class="cell-input" id="addressde" placeholder="请输入街道地址" autocomplete="off">
+                    </div>
+                </div>
+                <div class="aui-radio">
+                    <!--<input type="radio" value="值" name="名称" checked="checked" />设为默认地址-->
+                    <input type="checkbox" checked="checked" id="ifdalfut">设为默认地址
+                </div>
+
+            </div>
+        </section>
+    </section>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/AddressAdd/city.js"></script>
+    <script src="assets/js/AddressAdd/address.js"></script>
+
+
+    <script src="JSContorl/JS/ConfigForRequest.js"></script>
+    <script charset="gb2312" src="JSContorl/JS/OrderRequest.js"></script>
+    <script src="JSContorl/Comman/Comman.js"></script>
+    <script src="JSContorl/Cache/cache.js?v=1"></script>
+    <script charset="gb2312" src="JSContorl/JS/Controller.js"></script>
+    <script charset="gb2312" src="JSContorl/JS/UserRequest.js"></script>
+
+    <script>
+        function Save() {
+            var address = $("#J_Address").val();
+            var addressde = $("#addressde").val();
+            var name = $("#name").val();
+            var mobile = $("#mobile").val();
+            var ifdalfut = '0';
+            if ($('#ifdalfut').is(':checked')) {
+                ifdalfut = '1';
+            }
+            AddUserAddress(name, mobile, address, addressde, ifdalfut);
+
+            //获取设置 action
+            var action = getQueryString('source');
+            SetNextAction(action);
+
+            self.location=document.referrer;
+        };
+
+        /**
+        * 默认调用
+        */
+        !function () {
+            var $target = $('#J_Address');
+
+            $target.citySelect();
+
+            $target.on('click', function (event) {
+                event.stopPropagation();
+                $target.citySelect('open');
+            });
+
+            $target.on('done.ydui.cityselect', function (ret) {
+                $(this).val(ret.provance + ' ' + ret.city + ' ' + ret.area);
+            });
+        }();
+            /**
+* 设置默认值
+*/</script>
+</body>
+</html>

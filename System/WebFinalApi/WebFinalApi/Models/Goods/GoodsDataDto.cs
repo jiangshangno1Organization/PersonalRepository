@@ -12,6 +12,11 @@ namespace WebFinalApi.Models.Goods
         public int goodsCount { get; set; }
     }
 
+    public class GoodsDetailOutput
+    {
+        public GoodsCell goodsCell { get; set; }
+    }
+
 
     public class GoodsCell
     {

@@ -42,13 +42,13 @@
                         <input type="password" class="form-control" id="code" placeholder="验证码" autocomplete="off">
                     </div>
                     <div class="form-group">
-                        <input type="button" id="codesend" value="发送验证码" class="btn btn-group-justified" onclick="SendVerificationCode($('#mobile').val())">
+                        <input type="button" id="codesend" value="发送验证码" class="btn btn-primary" onclick="SendVerificationCode($('#mobile').val())">
                     </div>
                     <div class="form-group">
-                        <p>Not registered? <a href="sign-up.html">Sign Up</a> | <a href="forgot.html">Forgot Password?</a></p>
+                        <!--<p>Not registered? <a href="sign-up.html">Sign Up</a> | <a href="forgot.html">Forgot Password?</a></p>-->
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="登录" class="btn btn-primary" onclick="UserLogin($('#mobile').val(),$('#code').val())">
+                        <input type="button" value="登录" class="btn btn-group-justified" onclick="UserLogin($('#mobile').val(),$('#code').val())">
                     </div>
                 </form>
                 <!-- END Sign In Form -->
@@ -59,7 +59,7 @@
     <!-- jQuery -->
     <script src="assets/LoginData/js/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <!-- Placeholder -->
+    <!-- Placeholder -->    
     <script src="assets/LoginData/js/jquery.placeholder.min.js"></script>
     <!-- Waypoints -->
     <script src="assets/LoginData/js/jquery.waypoints.min.js"></script>
@@ -70,7 +70,7 @@
     <script charset="gb2312" src="JSContorl/JS/UserRequest.js"></script>
     <script src="JSContorl/Cache/cache.js"></script>
     <script src="JSContorl/Comman/Comman.js"></script>
-    <script src="JSContorl/JS/Controller.js"></script>
+    <script charset="gb2312" src="JSContorl/JS/Controller.js"></script>
 
 </body>
 </html>

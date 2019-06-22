@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link href="assets/css/OrderStyle.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="assets/js/tab.js"></script>
+    <script src="JSContorl/JS/ConfigForRequest.js"></script>
+    <script charset="gb2312" src="JSContorl/JS/OrderRequest.js"></script>
+    <script src="JSContorl/Comman/Comman.js"></script>
+    <script src="JSContorl/Cache/cache.js?v=1"></script>
+    <script src="JSContorl/JS/Controller.js"></script>
+</head>
+<body>
+ 
+    <!--0：未付款 1：未收货 2：已完成 3: 已取消 4:全部-->
+    <section class="aui-flexView">
+        <header class="aui-navBar aui-navBar-fixed">
+            <a class="aui-navBar-item" onclick="BackUserCenterFromAddress()">
+                <i class="icon icon-return"></i>
+            </a>
+            <div class="aui-center">
+                <span class="aui-center-title">我的订单</span>
+            </div>
+            <a href="javascript:;" class="aui-navBar-item">
+                <i class="icon icon-sys"></i>
+            </a>
+        </header>
+        <section class="aui-scrollView">
+            <div class="aui-tab" data-ydui-tab>
+                <ul class="tab-nav">
+                    <li class="tab-nav-item tab-active" id="all">
+                        <a href="javascript:;" data-target="4">全部</a>
+                    </li>
+                    <li class="tab-nav-item">
+                        <a href="javascript:;" data-target="0">待付款</a>
+                    </li>
+                    <li class="tab-nav-item">
+                        <a href="javascript:;" data-target="1">待收货</a>
+                    </li>
+                    <li class="tab-nav-item">
+                        <a href="javascript:;" data-target="2">已完成</a>
+                    </li>
+                    <li class="tab-nav-item">
+                        <a href="javascript:;" data-target="3">已取消</a>
+                    </li>
+                </ul>
+                <div class="divHeight"></div>
+
+                <div class="tab-panel">
+                    <div class="tab-panel-item tab-active" data-target="4" id="4">
+                    </div>
+                    <div class="tab-panel-item" data-target="0" id="0">
+                    </div>
+                    <div class="tab-panel-item" data-target="1" id="1">
+                    </div>
+                    <div class="tab-panel-item" data-target="2" id="2">
+                    </div>
+                    <div class="tab-panel-item" data-target="3" id="3">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <div class="aui-mail-product" style="display:none" id="goodsModel">
+        <a href="javascript:;" class="aui-mail-product-item">
+            <div class="aui-mail-product-item-hd">
+                <img class="goodspicture" src="images/Order/pd-001.png" alt="">
+            </div>
+            <div class="aui-mail-product-item-bd">
+                <p class="goodsname">Apple 苹果 iPhone8 Plus 4G手机 深空灰 移动联通版64G裸机Apple 苹果 iPhone8 Plus 4G手机 深空灰 移动联通版64G裸机</p>
+            </div>
+        </a>
+    </div>
+
+</body>
+
+<script type="text/javascript"> 
+    window.onload = function myfunction() {
+        $('#all').click();
+    }
+</script>
+</html>

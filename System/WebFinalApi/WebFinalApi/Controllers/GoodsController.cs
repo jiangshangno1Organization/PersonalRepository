@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using WebFinalApi.CustomException;
 using WebFinalApi.Models;
 using WebFinalApi.Models.Goods;
@@ -39,6 +40,33 @@ namespace WebFinalApi.Controllers
                 errMsg = ex.Message;
             }
             return ResponsePack.Responsing(result, errMsg);
+        }
+
+        /// <summary>
+        /// 获取商品详情
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public BaseResponseModel<GoodsDetailOutput> GetGoodsDetail(int ID)
+        {
+            string errMsg = string.Empty;
+            GoodsDetailOutput goodsDetailOutput  =null;
+            try
+            {
+                goodsDetailOutput =  goodsService.GetGoodsDetail(ID);
+            }
+            catch (VerificationException ex)
+            {
+                errMsg = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                errMsg = ex.Message;
+            }
+           
+            return ResponsePack.Responsing(goodsDetailOutput, errMsg);
+
         }
 
         /// <summary>

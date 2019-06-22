@@ -8,7 +8,7 @@ namespace WebFinalApi.Empty
     public class Users
     {
         public int userId { get; set; }
-        public string userName { get; set; }
+        public string userName { get; set; } = "用户";
         public string mobile { get; set; }
         public string password { get; set; }
         public DateTime? updateTime { get; set; }

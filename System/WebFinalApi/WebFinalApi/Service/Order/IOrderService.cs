@@ -49,12 +49,20 @@ namespace WebFinalApi.Service
         /// </summary>
         /// <returns></returns>
         int PayOrder(int orderID);
+
+        /// <summary>
+        /// 生效订单
+        /// </summary>
+        /// <param name="orderID"></param>
+        /// <returns></returns>
+        bool EffectiveOrder(int orderID);
+
         #endregion
 
         #region 订单数据获取
 
         /// <summary>
-        /// 获取订单列表（0：未付款 1：未收货 2：已完成）
+        /// 获取订单列表（0：未付款 1：未收货 2：已完成 3:已取消）
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="type"></param>

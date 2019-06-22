@@ -1,0 +1,144 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>商品详情</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- all css here -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/themify-icons.css">
+    <link rel="stylesheet" href="assets/css/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="assets/css/icofont.css">
+    <link rel="stylesheet" href="assets/css/meanmenu.min.css">
+    <link rel="stylesheet" href="assets/css/bundle.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <link href="assets/css/OrderStyle.css" rel="stylesheet" />
+</head>
+<body>
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <header class="aui-navBar aui-navBar-fixed">
+        <a class="aui-navBar-item" onclick="ToIndexRef()">
+            <i class="icon icon-return"></i>
+        </a>
+        <div class="aui-center">
+            <span class="aui-center-title">商品详情</span>
+        </div>
+        <a href="javascript:;" class="aui-navBar-item">
+            <i class="icon icon-sys"></i>
+        </a>
+    </header>
+    <a id="goodsid" style="display:none"></a>
+
+
+    <!-- product area start -->
+    <div class="product-style-area pt-130 pb-30 wow fadeInUp">
+        <div class="container">
+            <div class="section-title-furits text-center mb-95">
+                <img src="assets/img/icon-img/49.png" alt="">
+                <h2></h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-xl-3 col-md-6">
+                    <div class="product-fruit-wrapper mb-60">
+                        <div class="product-fruit-img">
+                            <!--<img src="assets/img/product/furits/6.jpg" alt="">-->
+                            <img id="picture" src="images/Goods/goods1.jpg" alt="">
+                            <div  class="product-furit-action">
+                                <a class="furit-animate-left" title="Add To Cart" id="add" onclick="AddToUserCart()">
+                                    <i class="pe-7s-cart"></i>
+                                </a>
+                                <!--<a class="furit-animate-right" title="Add To Cart" href="#">
+                                    <i class="pe-7s-cart"></i>
+                                </a>-->
+                            </div>
+                        </div>
+                        <div class="product-fruit-content text-center">
+                            <h4><a id="goodsName">Pinapple Freash</a></h4>
+                            <span id="price">$20.99</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<a class="furits-slider-btn btn-hover animated" style="text-align:center" onclick="EndShowFlashScreen()">添加到购物车</a>-->
+            <div class="fadeinup-animated furits-content text-center">
+                <a class="furits-slider-btn btn-hover animated" onclick="$('#add').click()">添加到购物车</a>
+            </div>
+
+        </div>
+
+    </div>
+    <!-- product area end -->
+    <!-- services area start -->
+    <div class="fruits-services ptb-200">
+        <div class="fruits-services-wrapper">
+            <div class="single-fruits-services">
+                <div class="fruits-services-img">
+                    <img src="assets/img/icon-img/53.png" alt="">
+                </div>
+                <div class="fruits-services-content">
+                    <h4>Collect Natural Food</h4>
+                    <p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is simply industry.</p>
+                </div>
+            </div>
+            <div class="single-fruits-services">
+                <div class="fruits-services-img">
+                    <img src="assets/img/icon-img/54.png" alt="">
+                </div>
+                <div class="fruits-services-content">
+                    <h4>Set Your Location.</h4>
+                    <p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is simply industry.</p>
+                </div>
+            </div>
+            <div class="single-fruits-services">
+                <div class="fruits-services-img">
+                    <img src="assets/img/icon-img/55.png" alt="">
+                </div>
+                <div class="fruits-services-content">
+                    <h4>Collect Yor Product</h4>
+                    <p>Lorem Ipsum is simply dummy text of the and typesetting industry. Lorem Ipsum is simply industry.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- services area end -->
+    <!-- all js here -->
+    <script src="assets/js/vendor/jquery-1.12.0.min.js"></script>
+    <script src="assets/js/popper.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="assets/js/isotope.pkgd.min.js"></script>
+    <script src="assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <script src="assets/js/waypoints.min.js"></script>
+    <script src="assets/js/ajax-mail.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script src="JSContorl/Comman/Comman.js"></script>
+    <script charset="gb2312" src="JSContorl/JS/GoodsRequest.js"></script>
+    <script src="JSContorl/Cache/cache.js"></script>
+    <script charset="gb2312" src="JSContorl/JS/Controller.js"></script>
+    <script charset="gb2312" src="JSContorl/JS/OrderRequest.js"></script>
+</body>
+<script type="text/javascript">
+    window.onload = function()
+    {
+        var goodsId = getQueryString('goodsid');
+        GoodsDetailDataInit(goodsId);
+    }
+</script>
+
+</html>

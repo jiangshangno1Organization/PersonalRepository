@@ -1,3 +1,12 @@
+//首页商品数据加载 展示
+function IndexGoodsInitAndShow() {
+    var goodsData = GetAllGoods();
+    //展示
+    if (!isEmpty(goodsData)) {
+        ShowGoodsForIndex(goodsData);
+    }
+}
+
 //获取所有商品
 function GetAllGoods() {
     var goodsData;
@@ -22,7 +31,32 @@ function GetAllGoods() {
     return goodsData;
 }
 
-//通过分类CD 获取商品
+///获取goods Data
+function GetGoodsDataByGoodsId(id) {
+    var goodsData;
+    var url = GetApiUrlPrefix();
+    var userKey = getCookie('userkey');
+    $.ajax({
+        url: url + 'Goods/GetGoodsDetail',
+        type: "Get",
+        headers: { 'Authorization': userKey },
+        data: { ID: id },
+        dataType: 'JSON',
+        async: false,
+        success: function (data) {
+            if (data.requestIfSuccess) {
+                goodsData = data.data;
+            }
+            else {
+                alert('请求失败.');
+                goodsData = null;
+            }
+        }
+    });
+    return goodsData;
+}
+
+///通过分类CD 获取商品
 function GetGoodsByCategoryCD(cd) {
 
     var url = GetApiUrlPrefix();
@@ -145,4 +179,27 @@ function GoodsCellForIndex(goodsCell) {
     var oprc = clonedNode.getElementsByClassName("oprc")[0];
     oprc.innerText = '￥' + oPrc;
     dd.appendChild(clonedNode); // 在父节点插入克隆
+}
+
+///商品详情数据展示
+function GoodsDetailDataInit(goodsid) {
+
+    $('#goodsid').text(goodsid);
+    if (isEmpty(goodsid)) {
+        alert("商品不存在");
+        window.location(-1);
+    }
+    //获取商品详情
+    var goodsData = GetGoodsDataByGoodsId(goodsid);
+
+    //展示
+    var goodsName = goodsData.goodsCell.goodsName;
+    var goodsPrice = goodsData.goodsCell.price;
+    var goodsPicture = goodsData.goodsCell.goodsPictrures[0].file;
+
+    $('#goodsName').text(goodsName);
+    $('#price').text('$' + goodsPrice);
+    $('#picture').attr('src', goodsPicture);
+
+    $('#picture').click();
 }

@@ -140,7 +140,7 @@ namespace WebFinalApi.Service
         /// <returns></returns>
         public IEnumerable<GoodsPicture> GetGoodsPictures(IEnumerable<int> goodsIDs, bool ifDefault)
         {
-            string defaultCondition = ifDefault ? " AND ifdefault = '1'" : "";
+            string defaultCondition = ifDefault ? " AND ifdefault = '1'" : " AND ifdefault = '2' ";
             string sql = $"SELECT * FROM goods_picture WHERE goodsid IN @ids AND ifdel = '0' {defaultCondition}";
             return commonDB.Query<GoodsPicture>(sql, new { ids = goodsIDs });
         }
@@ -150,12 +150,12 @@ namespace WebFinalApi.Service
         /// </summary>
         /// <param name="goodsIDs"></param>
         /// <returns></returns>
-        public GoodsDataOutput GenerateGoods(IEnumerable<int> goodsIDs)
+        public GoodsDataOutput GenerateGoods(IEnumerable<int> goodsIDs ,bool ifDetail = false)
         {
             //基础信息
             var goodsData = GetGoodsDataByGoodsIDs(goodsIDs);
             //商品图片
-            var goodsPicture = GetGoodsPictures(goodsData.Select(i => i.goodsID), true);
+            var goodsPicture = GetGoodsPictures(goodsData.Select(i => i.goodsID), !ifDetail);
             //组装
             var goodsDto = from goods in goodsData
                            join picture in goodsPicture on goods.goodsID equals picture.goodsId
@@ -203,7 +203,7 @@ namespace WebFinalApi.Service
                 userID = userID
             };
             string sqlCondition = SelectSqlGenerate<OrderCart>(orderCart, new List<string>() { nameof(orderCart.userID) });
-            string sql = $"SELECT * FROM order_cart {sqlCondition} ";
+            string sql = $"SELECT * FROM order_cart {sqlCondition} AND count > 0";
             return commonDB.Query<OrderCart>(sql, orderCart);
         }
 
@@ -215,7 +215,7 @@ namespace WebFinalApi.Service
         public IEnumerable<OrderCart> GetCartsDataByCartIDs(IEnumerable<int> IDs)
         {
             string sql = $"SELECT * FROM order_cart WHERE ID IN @ids ";
-            return commonDB.Query<OrderCart>(sql, new { ids = IDs});
+            return commonDB.Query<OrderCart>(sql, new { ids = IDs });
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace WebFinalApi.Service
         /// </summary>
         /// <param name="orderBase"></param>
         /// <param name="orderDetails"></param>
-        public void GenerateOrder(OrderBase orderBase ,IEnumerable<OrderDetail> orderDetails)
+        public void GenerateOrder(OrderBase orderBase, IEnumerable<OrderDetail> orderDetails)
         {
             string sqlConditon = InsertSqlGenerate(orderBase, new List<string>()
             {
@@ -235,7 +235,8 @@ namespace WebFinalApi.Service
                 nameof(orderBase.status),
                 nameof(orderBase.sum),
                 nameof(orderBase.userID),
-                nameof(orderBase.userName)
+                nameof(orderBase.userName),
+                nameof(orderBase.goodsnumber)
             });
             string sql = $"INSERT INTO order_base {sqlConditon} ";
             if (commonDB.Excute(sql, orderBase) != 1)
@@ -252,7 +253,8 @@ namespace WebFinalApi.Service
                     nameof(item.gdsCD),
                     nameof(item.gdsID),
                     nameof(item.unitprice),
-                    nameof(item.gdsName)
+                    nameof(item.gdsName),
+                    nameof(item.goodspic)
                 });
                 sql = $"INSERT INTO order_detail {sqlConditon}";
                 if (commonDB.Excute(sql, item) != 1)
@@ -318,9 +320,110 @@ namespace WebFinalApi.Service
             return commonDB.QueryFirstOrDefault<Users>(sql, new { id = userID });
         }
 
+        /// <summary>
+        /// 获取收货地址
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public IEnumerable<UserAddress> GetUserAddress(int userID)
+        {
+            string sql = $"SELECT * FROM user_address WHERE userid = @id AND ifdel = '0' ORDER BY moditime DESC";
+            var result = commonDB.Query<UserAddress>(sql, new { id = userID });
+            if (result != null && result.Count() > 0)
+            {
+                return result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 收货地址新增
+        /// </summary>
+        /// <param name="userAddress"></param>
+        /// <param name="userID"></param>
+        public bool AddAddress(UserAddress userAddress, int userID)
+        {
+            string sql = InsertSqlGenerate(userAddress, new List<string>()
+            {
+                 nameof(userAddress.address),
+                 nameof(userAddress.addressde),
+                 nameof(userAddress.ifDefault),
+                 nameof(userAddress.ifdel),
+                 nameof(userAddress.mobile),
+                 nameof(userAddress.userID),
+                 nameof(userAddress.userName),
+                 nameof(userAddress.moditime)
+            });
+            sql = $"INSERT INTO user_address {sql}";
+            if (commonDB.Excute(sql, userAddress) == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 修改用户地址
+        /// </summary>
+        /// <param name="userAddress"></param>
+        /// <param name="userID"></param>
+        public bool ChangeAddress(UserAddress userAddress, int userID)
+        {
+            string sql = UpdateSqlGenerate(userAddress,
+                new List<string>()
+                {
+                    nameof(userAddress.ifDefault),
+                    nameof(userAddress.mobile),
+                    nameof(userAddress.ifdel),
+                    nameof(userAddress.userName),
+                    nameof(userAddress.address),
+                    nameof(userAddress.addressde),
+                },
+                new List<string>() { nameof(userAddress.ID) ,nameof(userAddress.userID) });
+
+            sql = $"UPDATE user_address {sql}";
+
+            if (commonDB.Excute(sql, userAddress) == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        /// <summary>
+        /// 删除用户地址
+        /// </summary>
+        /// <param name="addressID"></param>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public bool DeleteAddress(int addressID, int userID)
+        {
+            string sql = "UPDATE  user_address set ifdel = '1' WHERE userid = @id AND id = @addressid";
+
+            if (commonDB.Excute(sql, new { id = userID , addressid = addressID }) == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #endregion
 
         #region SQL构建 
+
         /// <summary>
         /// Insert语句生成
         /// </summary>

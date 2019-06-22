@@ -181,7 +181,7 @@ a {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
-    z-index: 1002;
+ 
     background-image: -webkit-gradient(linear,left top,right top,from(#00ce98),to(#00c3ad));
     background-image: -webkit-linear-gradient(left,#00ce98,#00c3ad);
     background-image: -moz-linear-gradient(left,#00ce98,#00c3ad);
@@ -509,7 +509,6 @@ a {
     padding:10px 0;
 }
 
-
 .aui-footer {
     width: 100%;
     position: fixed;
@@ -570,9 +569,13 @@ a {
 
 .aui-tabBar-item-text {
     display: inline-block;
-    font-size: 0.65rem;
+    font-size: 0.58rem;
     color: #505050;
-    padding-top: 2px;
+    padding-top: 6px;
+}
+
+.chose {
+    color: #00CBAC;
 }
 
 .aui-tabBar-item-active .aui-tabBar-item-text {
