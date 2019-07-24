@@ -16,6 +16,10 @@ namespace WebFinalApi.Controllers
     using Senparc.Weixin.MP.Entities.Menu;
     using Senparc.Weixin.MP.Entities.Request;
     using Senparc.Weixin.MP.MvcExtension;
+    using System.IO;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
     using System.Web.Http.Results;
     using System.Web.UI.WebControls;
     using WebFinalApi.WXAbt.MessageHandler;
@@ -124,87 +128,85 @@ namespace WebFinalApi.Controllers
             }
         }
 
+
         /// <summary>
-                /// 用户发送消息后，微信平台自动Post一个请求到这里，并等待响应XML。
-                /// PS：此方法为简化方法，效果与OldPost一致。
-                /// v0.8之后的版本可以结合Senparc.Weixin.MP.MvcExtension扩展包，使用WeixinResult，见MiniPost方法。
-                /// </summary>
+        /// 用户发送消息后，微信平台自动Post一个请求到这里，并等待响应XML。
+        /// PS：此方法为简化方法，效果与OldPost一致。
+        /// v0.8之后的版本可以结合Senparc.Weixin.MP.MvcExtension扩展包，使用WeixinResult，见MiniPost方法。
+        /// </summary>
         [HttpPost]
         [ActionName("weChat")]
-        public void Post(String signature, String timestamp, String nonce, String openid)
+        public HttpResponseMessage Post()
         {
-            PostModel postModel = new PostModel()
+            var requestQueryPairs = Request.GetQueryNameValuePairs().ToDictionary(k => k.Key, v => v.Value);
+            if (requestQueryPairs.Count == 0
+                || !requestQueryPairs.ContainsKey("timestamp")
+                || !requestQueryPairs.ContainsKey("signature")
+                || !requestQueryPairs.ContainsKey("nonce")
+                || !CheckSignature.Check(requestQueryPairs["signature"], requestQueryPairs["timestamp"],
+                    requestQueryPairs["nonce"], Token))
             {
-                Signature = signature,
-                Timestamp = timestamp,
-                Nonce = nonce
+                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, "未授权请求");
+            }
+            PostModel postModel = new PostModel
+            {
+                Signature = requestQueryPairs["signature"],
+                Timestamp = requestQueryPairs["timestamp"],
+                Nonce = requestQueryPairs["nonce"]
             };
-            postModel = DataInit(postModel);
-            HttpContextBase context = (HttpContextBase)Request.Properties["MS_HttpContext"];//获取传统context 
-            HttpRequestBase request = context.Request;//定义传统request对象
-            NetLog.WriteTextLog(" 1 ");
+            postModel.Token = Token;
+            postModel.EncodingAESKey = EncodingAESKey;//根据自己后台的设置保持一致
+            postModel.AppId = AppId;//根据自己后台的设置保持一致
+
+            //v4.2.2之后的版本，可以设置每个人上下文消息储存的最大数量，防止内存占用过多，如果该参数小于等于0，则不限制
+            var maxRecordCount = 10;
+
+            //自定义MessageHandler，对微信请求的详细判断操作都在这里面。
+            var messageHandler = new CustomMessageHandler(Request.Content.ReadAsStreamAsync().Result, postModel);
+
+         
             try
             {
-                //!CheckSignature1(Token, postModel.Signature, postModel.Timestamp, postModel.Nonce)
-                if (false)
+                #if DEBUG
+                NetLog.WriteTextLog(messageHandler.RequestDocument.ToString());
+                if (messageHandler.UsingEcryptMessage)
                 {
-                    NetLog.WriteTextLog(" 3 A ");
-                    HttpContext.Current.Response.Write("参数错误！");
+                    NetLog.WriteTextLog(messageHandler.EcryptRequestDocument.ToString());
                 }
-                else
+                #endif
+                /* 如果需要添加消息去重功能，只需打开OmitRepeatedMessage功能，SDK会自动处理。
+                 * 收到重复消息通常是因为微信服务器没有及时收到响应，会持续发送2-5条不等的相同内容的RequestMessage*/
+                messageHandler.OmitRepeatedMessage = true;
+
+                //执行微信处理过程
+               messageHandler.Execute();
+
+        #if DEBUG
+                if (messageHandler.ResponseDocument != null)
                 {
-                    postModel.Token = Token;//根据自己后台的设置保持一致
-                    postModel.EncodingAESKey = EncodingAESKey;//根据自己后台的设置保持一致
-                    postModel.AppId = AppId;//根据自己后台的设置保持一致
-                                            //自定义MessageHandler，对微信请求的详细判断操作都在这里面。
-                    var messageHandler = new CustomMessageHandler(request.InputStream, postModel);//接收消息
-                    messageHandler.Execute();//执行微信处理过程
-                    NetLog.WriteTextLog(" 5 ");
-                    HttpContext.Current.Response.Write(new FixWeixinBugWeixinResult(messageHandler));
+                    NetLog.WriteTextLog(messageHandler.ResponseDocument.ToString());
                 }
-                HttpContext.Current.Response.StatusCode = 200;
-                HttpContext.Current.Response.End();
+
+                if (messageHandler.UsingEcryptMessage)
+                {
+                    //记录加密后的响应信息
+                    NetLog.WriteTextLog(messageHandler.FinalResponseDocument.ToString());
+                }
+#endif
+
+                var resMessage = Request.CreateResponse(HttpStatusCode.OK);
+                resMessage.Content = new StringContent(messageHandler.ResponseDocument.ToString());
+                resMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/xml");
+
+                return resMessage;
             }
             catch (Exception ex)
             {
-                NetLog.WriteTextLog($" 4{ex.Message} ");
+                NetLog.WriteTextLog("处理微信请求出错：" + ex.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "处理微信请求出错");
             }
         }
 
-        [HttpPost]
-        [ActionName("weChat")]
-        public void Post(PostModel postModel , String echostr)
-        {
-            postModel = DataInit(postModel);
-            HttpContextBase context = (HttpContextBase)Request.Properties["MS_HttpContext"];//获取传统context 
-            HttpRequestBase request = context.Request;//定义传统request对象
-            NetLog.WriteTextLog(" 1 ");
-            try
-            {
-                if (!CheckSignature.Check(postModel.Signature, postModel))
-                {
-                    NetLog.WriteTextLog(" 3 A ");
-                    HttpContext.Current.Response.Write("参数错误！");
-                }
-                else
-                {
-                    postModel.Token = Token;//根据自己后台的设置保持一致
-                    postModel.EncodingAESKey = EncodingAESKey;//根据自己后台的设置保持一致
-                    postModel.AppId = AppId;//根据自己后台的设置保持一致
-                                            //自定义MessageHandler，对微信请求的详细判断操作都在这里面。
-                    var messageHandler = new CustomMessageHandler(request.InputStream, postModel);//接收消息
-                    messageHandler.Execute();//执行微信处理过程
-                    NetLog.WriteTextLog(" 5 ");
-                    HttpContext.Current.Response.Write(new FixWeixinBugWeixinResult(messageHandler));
-                }
-                HttpContext.Current.Response.StatusCode = 200;
-                HttpContext.Current.Response.End();
-            }
-            catch (Exception ex)
-            {
-                NetLog.WriteTextLog($" 4{ex.Message} ");
-            }
-        }
 
         [HttpGet]
         [ActionName("dd")]
@@ -257,7 +259,19 @@ namespace WebFinalApi.Controllers
         }
 
 
+    
+
+        public class Da
+        {
+            public int reqType { get; set; }
+
+
+        }
+
+
+
 
     }
 
 }
+

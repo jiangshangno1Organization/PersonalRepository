@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using WebFinalApi.Helper;
 
 namespace WebFinalApi.WXAbt.MessageHandler
 {
@@ -27,12 +28,18 @@ namespace WebFinalApi.WXAbt.MessageHandler
 
         public override IResponseMessageBase OnTextRequest(RequestMessageText requestMessage)
         {
+            // string answer = GetAnswer(requestMessage.Content);
             var responseMessage = base.CreateResponseMessage<ResponseMessageText>();
-            responseMessage.Content = "您的OpenID是：" + requestMessage.FromUserName      //这里的requestMessage.FromUserName也可以直接写成base.WeixinOpenId
-                                          + "。\r\n您发送了文字信息：" + requestMessage.Content;  //\r\n用于换行，requestMessage.Content即用户发过来的文字内容
+            responseMessage.Content = "略略略";
+            //responseMessage.Content = "您的OpenID是：" + requestMessage.FromUserName      //这里的requestMessage.FromUserName也可以直接写成base.WeixinOpenId
+            //                              + "。\r\n您发送了文字信息：" + requestMessage.Content + "\r\n机器人回答：" + answer;  //\r\n用于换行，requestMessage.Content即用户发过来的文字内容
             return responseMessage;
         }
 
+        private string GetAnswer(string question)
+        {
+            return RequestHelp.dd("http://openapi.tuling123.com/openapi/api/v2", question);
+        }
 
     }
 }
